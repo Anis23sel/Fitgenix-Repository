@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Adherent {
+  id_adherent              Int     @id @default(autoincrement())
+  nom                      String  @db.VarChar(100)
+  prenom                   String  @db.VarChar(100)
+  email                    String  @unique @db.VarChar(150)
+  password                 String  @db.VarChar(255)
+  age                      Int
+  gender                   String  @db.VarChar(10)
+  goal                     String? @db.VarChar(255)
+  nombre_sceance_restantes Int     @default(0)
+  nombre_heures_restantes  Int     @default(0)
+}
+model sport {
+
+
+
+  
+}
