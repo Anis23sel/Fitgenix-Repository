@@ -20,9 +20,3 @@ model Adherent {
   nombre_sceance_restantes Int     @default(0)
   nombre_heures_restantes  Int     @default(0)
 }
-model sport {
-
-
-
-  
-}
