@@ -6,7 +6,7 @@ import OfferSection from "../../components/OfferSection";
 import { useState } from "react";
 
 
-function Home() {
+export default function LandingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const sports = [
@@ -127,4 +127,4 @@ function Home() {
   );
 }
 
-export default Home;
+
