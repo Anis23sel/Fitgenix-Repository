@@ -59,8 +59,8 @@ function Home() {
             <div className="w-1/2 text-left">
               <h1 className="text-4xl text-yellow-400 italic font-bold">ABOUT FITGENIX</h1>
               <p className="mt-4 text-lg text-white leading-relaxed">
-                A personalized fitness platform powered <br /> by AI, offering tailored workout plans, <br /> 
-                nutrition guidance, and progress tracking <br /> to help athletes and fitness enthusiasts <br /> 
+                A personalized fitness platform powered <br /> by AI offering tailored workout plans <br /> 
+                nutrition guidance and progress tracking <br /> to help athletes and fitness enthusiasts <br /> 
                 achieve their goals efficiently.
               </p>
             </div>

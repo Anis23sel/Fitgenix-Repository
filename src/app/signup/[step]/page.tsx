@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 export default function SignupStep() {
@@ -95,7 +95,7 @@ export default function SignupStep() {
               <h2 className="text-2xl font-bold mb-6 text-yellow-400">Step 2: Sports & Goals</h2>
               <input type="text" name="goal" placeholder="Goal" className="input mb-4 p-2 w-full rounded" onChange={handleChange} value={formData.goal} />
               <input type="number" name="nombre_sceance_restantes" placeholder="Nombre de Sceance Restantes" className="input mb-4 p-2 w-full rounded" onChange={handleChange} value={formData.nombre_sceance_restantes} />
-              <input type="number" name="nombre_heures_restantes" placeholder="Nombre d'Heures Restantes" className="input mb-4 p-2 w-full rounded" onChange={handleChange} value={formData.nombre_heures_restantes} />
+              <input type="number" name="nombre_heures_restantes" placeholder="Nombre d&apos;Heures Restantes" className="input mb-4 p-2 w-full rounded" onChange={handleChange} value={formData.nombre_heures_restantes} />
               <div className="flex justify-between">
                 <button onClick={() => handleNavigation(1)} className="btn bg-gray-400 text-black font-semibold py-2 px-4 rounded hover:bg-gray-500 transition">Back</button>
                 <button onClick={() => handleNavigation(3)} className="btn bg-yellow-400 text-black font-semibold py-2 px-4 rounded hover:bg-yellow-500 transition">Next</button>
@@ -115,7 +115,7 @@ export default function SignupStep() {
             <p className="mb-2"><strong className="text-yellow-400">Gender:</strong> <span className="text-white">{formData.gender}</span></p>
             <p className="mb-2"><strong className="text-yellow-400">Goal:</strong> <span className="text-white">{formData.goal}</span></p>
             <p className="mb-2"><strong className="text-yellow-400">Nombre de Sceance Restantes:</strong> <span className="text-white">{formData.nombre_sceance_restantes}</span></p>
-            <p className="mb-2"><strong className="text-yellow-400">Nombre d'Heures Restantes:</strong> <span className="text-white">{formData.nombre_heures_restantes}</span></p>
+            <p className="mb-2"><strong className="text-yellow-400">Nombre d&apos;Heures Restantes:</strong> <span className="text-white">{formData.nombre_heures_restantes}</span></p>
             <div className="flex justify-between">
               <button onClick={() => handleNavigation(2)} className="btn bg-gray-400 text-black font-semibold py-2 px-4 rounded hover:bg-gray-500 transition">Back</button>
               <button onClick={handleSubmit} className="btn bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 transition">Submit</button>

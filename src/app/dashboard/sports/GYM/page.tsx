@@ -34,7 +34,7 @@ export default function GYM() {
 
           {/* Sessions Section */}
           <div className="bg-white p-4 shadow-lg rounded-2xl">
-            <h2 className="text-lg font-semibold mb-4">This Week's Sessions</h2>
+            <h2 className="text-lg font-semibold mb-4">This Week Sessions</h2>
             <TodaySession
               sessions={[
                 { name: "Chest Workout", time: "9:00 AM", day: "Monday", date: "Apr 14" },
