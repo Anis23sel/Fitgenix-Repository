@@ -1,7 +1,7 @@
-import CircularProgress from "../../../../ui/dashboard/dashboardcard/CircularProgress";
-import Statistics from "../../../../ui/dashboard/dashboardcard/Statistics";
-import BodyChart from "../../../../ui/dashboard/dashboardcard/BodyChart";
-import CurrentScore from "../../../../ui/dashboard/dashboardcard/CurrentScore";
+import CircularProgress from "@/components/ui/dashboard/dashboardcard/CircularProgress";
+import Statistics from "@/components/ui/dashboard/dashboardcard/Statistics";
+import BodyChart from "@/components/ui/dashboard/dashboardcard/BodyChart";
+import CurrentScore from "@/components/ui/dashboard/dashboardcard/CurrentScore";
 
 export default function Performance() {
   return (

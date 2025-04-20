@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
-import DashboardSportCard from "../../../ui/dashboard/dashboardcard/DashboardSportcard";
-import CircularProgressCountUp from "../../../ui/dashboard/dashboardcard/CircularProgress";
-import DateRangeCalendar from "../../../ui/dashboard/dashboardcard/DateRangeCalendar";
-import TodaySession from "../../../ui/dashboard/dashboardcard/TodaySession";
-import Mealcard from "../../../ui/dashboard/dashboardcard/Mealcard";
+import DashboardSportCard from "@/components/ui/dashboard/dashboardcard/DashboardSportcard";
+import CircularProgressCountUp from "@/components/ui/dashboard/dashboardcard/CircularProgress";
+import DateRangeCalendar from "@/components/ui/dashboard/dashboardcard/DateRangeCalendar";
+import TodaySession from "@/components/ui/dashboard/dashboardcard/TodaySession";
+import Mealcard from "@/components/ui/dashboard/dashboardcard/Mealcard";
 
 export default function Dashboard() {
   const router = useRouter();

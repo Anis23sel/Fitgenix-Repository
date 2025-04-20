@@ -1,8 +1,8 @@
-import CircularProgress from "../../../../../ui/dashboard/dashboardcard/CircularProgress";
-import DateRangeCalendar from "../../../../../ui/dashboard/dashboardcard/DateRangeCalendar";
-import TodaySession from "../../../../../ui/dashboard/dashboardcard/TodaySession";
-import Statistics from "../../../../../ui/dashboard/dashboardcard/Statistics";
-import SessionComponent from "../../../../../ui/dashboard/dashboardcard/SessionComponent";
+import CircularProgress from "@/components/ui/dashboard/dashboardcard/CircularProgress";
+import DateRangeCalendar from "@/components/ui/dashboard/dashboardcard/DateRangeCalendar";
+import TodaySession from "@/components/ui/dashboard/dashboardcard/TodaySession";
+import Statistics from "@/components/ui/dashboard/dashboardcard/Statistics";
+import SessionComponent from "@/components/ui/dashboard/dashboardcard/SessionComponent";
 
 export default function GYM() {
   return (

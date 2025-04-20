@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import Header from "../../components/Header";
-import OfferSection from "../../components/OfferSection";
+import Header from "@/components/ui/Header";
+import OfferSection from "@/components/ui/OfferSection";
 import { useState } from "react";
 
 
