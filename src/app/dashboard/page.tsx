@@ -46,11 +46,11 @@ export default function Dashboard() {
         {/* Top Row: CircularProgress + Sports */}
         <div className="flex gap-6">
           {/* Circular Progress */}
-          <div className="w-full sm:w-[150px] lg:w-[200px] flex flex-col items-center space-y-6">
+          {/*<div className="w-full sm:w-[150px] lg:w-[200px] flex flex-col items-center space-y-6">
             <div className="flex justify-center items-center">
               <CircularProgressCountUp />
             </div>
-          </div>
+          </div>*/}
 
           {/* Sports Cards */}
           <div className="grid grid-cols-2 gap-6 w-full h-full">
@@ -106,8 +106,8 @@ export default function Dashboard() {
 
       {/* Right Sidebar: Calendar + Sessions */}
       <div className="w-full sm:w-[300px] lg:w-[350px] flex-shrink-0">
-        <div className="mb-6 bg-white">
-          <DateRangeCalendar />
+        <div className="mb-6">
+          <CircularProgressCountUp />
         </div>
         <TodaySession
           sessions={[

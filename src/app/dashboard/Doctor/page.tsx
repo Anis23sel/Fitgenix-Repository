@@ -5,6 +5,7 @@ import InBodyTestTable from "@/components/ui/dashboard/DoctorDashboard/InBodyTes
 import DateRangeCalendar from "@/components/ui/dashboard/dashboardcard/DateRangeCalendar";
 import UsersTable from "@/components/ui/dashboard/DoctorDashboard/UsersTable";
 import SearchBar from "@/components/ui/dashboard/DoctorDashboard/SearchBar";
+import TodaysClients from "@/components/ui/dashboard/DoctorDashboard/TodaysClients";
 
 export default function Doctor() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,8 +33,9 @@ export default function Doctor() {
       </div>
 
       {/* Right column: Calendar */}
-      <div>
+      <div >
         <DateRangeCalendar />
+        <TodaysClients  />
       </div>
     </div>
   );
