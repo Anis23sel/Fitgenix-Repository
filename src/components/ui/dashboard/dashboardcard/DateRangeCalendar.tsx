@@ -1,20 +1,18 @@
-'use client';
-import * as React from 'react';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
-import { DateRangeCalendar } from '@mui/x-date-pickers-pro/DateRangeCalendar';
+"use client"
 
-export default function DateRangeCalendarCalendarsProp() {
+import * as React from "react"
+
+import { Calendar } from "@/components/ui/calendar"
+
+export default function DateRangeCalendar() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
+
   return (
-    <div className="border-2 border-black rounded-lg shadow-lg p-4">
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={['DateRangeCalendar', 'DateRangeCalendar']}>
-          <DemoItem>
-            <DateRangeCalendar calendars={1} />
-          </DemoItem>
-        </DemoContainer>
-      </LocalizationProvider>
-    </div>
-  );
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      className="rounded-md border"
+    />
+  )
 }

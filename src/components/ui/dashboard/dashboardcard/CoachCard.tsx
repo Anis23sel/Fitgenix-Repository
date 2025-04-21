@@ -8,7 +8,7 @@ type CoachCardProps = {
 
 const CoachCard: React.FC<CoachCardProps> = ({ name, role, imageUrl }) => {
     return (
-        <div className="flex items-center bg-gradient-to-r from-yellow-400 to-white text-white rounded-2xl shadow-lg p-6 w-full max-w-md hover:scale-105 transform transition-transform duration-300">
+        <div className="flex items-center bg-black text-white rounded-2xl shadow-lg p-6 w-full max-w-md hover:scale-105 transform transition-transform duration-300">
             {/* Profile Picture */}
             <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0 border-4 border-white shadow-md">
                 <img

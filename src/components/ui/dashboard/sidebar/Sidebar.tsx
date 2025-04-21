@@ -39,8 +39,8 @@ export default function Sidebar() {
                 <button
                   className={`flex items-center w-full px-4 py-3 rounded-md text-lg transition ${
                     isActive
-                      ? "bg-gray-700 text-black"
-                      : "hover:bg-gray-800 text-white"
+                      ? "bg-yellow-400 text-black"
+                      : "hover:bg-yellow-400 text-white"
                   }`}
                 >
                   <Icon size={22} className="mr-4" />
