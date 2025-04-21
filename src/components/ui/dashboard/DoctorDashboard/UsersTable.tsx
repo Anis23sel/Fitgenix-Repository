@@ -1,88 +1,48 @@
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
-  
-  const invoices = [
-    {
-      invoice: "INV001",
-      paymentStatus: "Paid",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV002",
-      paymentStatus: "Pending",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV003",
-      paymentStatus: "Unpaid",
-      totalAmount: "$350.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV004",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV005",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
-      paymentMethod: "Credit Card",
-    },
-  ]
-  
-  export default function UsersTable() {
-    return (
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    )
-  }
-  
+
+import * as React from 'react';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import Paper from '@mui/material/Paper';
+
+type UsersTableProps = {
+  searchQuery: string;
+};
+
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'firstName', headerName: 'First name', width: 130 },
+  { field: 'lastName', headerName: 'Last name', width: 130 },
+];
+
+const rows = [
+  { id: 1, lastName: 'Snow', firstName: 'Jon' },
+  { id: 2, lastName: 'Lannister', firstName: 'Cersei' },
+  { id: 3, lastName: 'Lannister', firstName: 'Jaime' },
+  { id: 4, lastName: 'Stark', firstName: 'Arya' },
+  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys' },
+  { id: 6, lastName: 'Melisandre', firstName: null },
+  { id: 7, lastName: 'Clifford', firstName: 'Ferrara' },
+  { id: 8, lastName: 'Frances', firstName: 'Rossini' },
+  { id: 9, lastName: 'Roxie', firstName: 'Harvey' },
+];
+
+const paginationModel = { page: 0, pageSize: 5 };
+
+export default function UsersTable({ searchQuery }: UsersTableProps) {
+  const filteredRows = rows.filter((row) => {
+    const fullName = `${row.firstName ?? ''} ${row.lastName ?? ''}`.toLowerCase();
+    return fullName.includes(searchQuery.toLowerCase());
+  });
+
+  return (
+    <Paper sx={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={filteredRows}
+        columns={columns}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+        sx={{ border: 0 }}
+      />
+    </Paper>
+  );
+}
