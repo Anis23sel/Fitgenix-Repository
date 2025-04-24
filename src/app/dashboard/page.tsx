@@ -1,35 +1,60 @@
 'use client';
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 import DashboardSportCard from "@/components/ui/dashboard/dashboardcard/DashboardSportcard";
 import CircularProgressCountUp from "@/components/ui/dashboard/dashboardcard/CircularProgress";
-import DateRangeCalendar from "@/components/ui/dashboard/dashboardcard/DateRangeCalendar";
 import TodaySession from "@/components/ui/dashboard/dashboardcard/TodaySession";
 import Mealcard from "@/components/ui/dashboard/dashboardcard/Mealcard";
+
+interface SportData {
+  sport: {
+    Name: string;
+  };
+  Adherent: {
+    nombre_sceance_restantes: number;
+  };
+}
 
 export default function Dashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [sports, setSports] = useState<SportData[]>([]);
 
-  // Auth check
-  // Try using useSession
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    const loadUserSports = async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+     
 
-      if (!session) {
+      if (userError || !user) {
+        console.error("User not signed in or error:", userError);
         router.push("/signin");
-      } else {
-        setLoading(false); // Authenticated, show dashboard
+        return;
       }
+
+      try {
+        const response = await fetch(`/api/dashboard/user-sports?email=${user.email}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || "Failed to fetch sports");
+        }
+
+        setSports(result);
+      } catch (err) {
+        console.error("Error loading dashboard data:", err);
+      }
+
+      setLoading(false);
     };
 
-    checkSession();
+    loadUserSports();
   }, [router]);
-
-  //const [selectedMeal, setSelectedMeal] = useState("breakfast");
 
   if (loading) {
     return (
@@ -41,55 +66,24 @@ export default function Dashboard() {
 
   return (
     <div className="flex justify-between gap-6 mt-6">
-      {/* Main Content: CircularProgress + Sports + Mealcard */}
       <div className="flex-1 flex flex-col gap-6">
         {/* Top Row: CircularProgress + Sports */}
         <div className="flex gap-6">
-          {/* Circular Progress */}
-          {/*<div className="w-full sm:w-[150px] lg:w-[200px] flex flex-col items-center space-y-6">
-            <div className="flex justify-center items-center">
-              <CircularProgressCountUp />
-            </div>
-          </div>*/}
-
-          {/* Sports Cards */}
           <div className="grid grid-cols-2 gap-6 w-full h-full">
-            <Link href="/dashboard/sports/GYM">
-              <DashboardSportCard
-                sport="GYM"
-                sessions="5 sessions"
-                period="left"
-                hasIncreased={true}
-                backgroundImage="/pictures/Dashboard/Sports/GYM.jpg"
-              />
-            </Link>
-            <Link href="/dashboard/sports/BASKETBALL">
-              <DashboardSportCard
-                sport="Basketball"
-                sessions="3 sessions"
-                period="left"
-                hasIncreased={false}
-                backgroundImage="/pictures/Dashboard/Sports/Basketball.png"
-              />
-            </Link>
-            <Link href="/dashboard/sports/NATATION">
-              <DashboardSportCard
-                sport="Swimming"
-                sessions="4 sessions"
-                period="left"
-                hasIncreased={true}
-                backgroundImage="/pictures/Dashboard/Sports/Natation.png"
-              />
-            </Link>
-            <Link href="/dashboard/sports/Football">
-              <DashboardSportCard
-                sport="Football"
-                sessions="2 sessions"
-                period="left"
-                hasIncreased={false}
-                backgroundImage="/pictures/Dashboard/Sports/Football.png"
-              />
-            </Link>
+            {sports.map((item, index) => (
+              <Link
+                key={index}
+                href={`/dashboard/sports/${encodeURIComponent(item.sport.Name)}`}
+              >
+                <DashboardSportCard
+                  sport={item.sport.Name}
+                  sessions={`${item.Adherent.nombre_sceance_restantes} sessions`}
+                  period="left"
+                  hasIncreased={false}
+                  backgroundImage={`/pictures/Dashboard/Sports/${item.sport.Name}.png`}
+                />
+              </Link>
+            ))}
             <div className="col-span-2 text-center mt-4">
               <Link href="/dashboard/sport">
                 <button className="bg-yellow-400 text-black py-2 px-6 rounded-lg text-lg font-medium hover:bg-yellow-500 transition">

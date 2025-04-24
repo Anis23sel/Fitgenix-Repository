@@ -1,26 +1,61 @@
 "use client";
 
-import { Search, Bell, Monitor, LogOut } from "lucide-react";
+import { Bell, Monitor, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
+interface UserProfile {
+  nom: string;
+  role: string;
+}
+
 export default function SearchHeader() {
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    const fetchUserProfile = async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        console.error("Error fetching user:", userError);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/dashboard/user-profile?email=${user.email}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || "Failed to fetch profile");
+        }
+
+        setUserProfile({
+          nom: result.nom,
+          role: result.role ?? "Athlete",
+        });
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = async () => {
@@ -30,7 +65,6 @@ export default function SearchHeader() {
 
   return (
     <header className="bg-black p-4 flex items-center justify-end shadow-md ml-64">
-      {/* Icons & Profile */}
       <div className="flex items-center space-x-4">
         <button className="relative p-2 rounded-full hover:bg-gray-800 transition">
           <Monitor size={22} className="text-gray-300" />
@@ -38,16 +72,18 @@ export default function SearchHeader() {
         <button className="relative p-2 rounded-full hover:bg-gray-800 transition">
           <Bell size={22} className="text-gray-300" />
         </button>
-
-        {/* Profile with dropdown */}
         <div className="relative" ref={dropdownRef}>
           <div
             className="flex items-center cursor-pointer"
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
             <div className="text-right mr-3">
-              <div className="font-semibold text-white">Anis</div>
-              <div className="text-sm text-gray-400">Athlete</div>
+              <div className="font-semibold text-white">
+                {userProfile?.nom || "Loading..."}
+              </div>
+              <div className="text-sm text-gray-400">
+                {userProfile?.role || "Loading..."}
+              </div>
             </div>
             <div className="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center overflow-hidden">
               <img
@@ -57,8 +93,6 @@ export default function SearchHeader() {
               />
             </div>
           </div>
-
-          {/* Dropdown */}
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
               <button

@@ -1,5 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider     = "prisma-client"           // no `-js` at the end
+  output       = "../src/generated/prisma" // `output` is required
+  moduleFormat = "esm"                     // or `"cjs"` for CommonJS
 }
 
 datasource db {
@@ -9,14 +11,35 @@ datasource db {
 }
 
 model Adherent {
-  id_adherent              Int     @id @default(autoincrement())
-  nom                      String  @db.VarChar(100)
-  prenom                   String  @db.VarChar(100)
-  email                    String  @unique @db.VarChar(150)
-  password                 String  @db.VarChar(255)
+  id_adherent              Int              @id @default(autoincrement())
+  nom                      String           @db.VarChar(100)
+  prenom                   String           @db.VarChar(100)
+  email                    String           @unique @db.VarChar(150)
+  password                 String           @db.VarChar(255)
   age                      Int
-  gender                   String  @db.VarChar(10)
-  goal                     String? @db.VarChar(255)
-  nombre_sceance_restantes Int     @default(0)
-  nombre_heures_restantes  Int     @default(0)
+  gender                   String           @db.VarChar(10)
+  goal                     String?          @db.VarChar(255)
+  nombre_sceance_restantes Int              @default(0)
+  nombre_heures_restantes  Int              @default(0)
+  role                     String?          @default("Athlete")
+  Adherent_sport           Adherent_sport[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Adherent_sport {
+  id_sport    BigInt
+  id          Int      @id @default(autoincrement())
+  id_adherent Int
+  Adherent    Adherent @relation(fields: [id_adherent], references: [id_adherent], onDelete: Cascade)
+  Sport       Sport    @relation(fields: [id_sport], references: [id_sport], onDelete: Cascade)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Sport {
+  id_sport       BigInt           @id @default(autoincrement())
+  Name           String
+  Date           DateTime?        @db.Date
+  Starting_time  DateTime?        @db.Time(6)
+  Ending_time    DateTime?        @db.Time(6)
+  Adherent_sport Adherent_sport[]
 }
