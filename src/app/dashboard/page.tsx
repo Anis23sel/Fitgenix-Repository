@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ interface SportData {
   sport: {
     Name: string;
   };
-  Adherent: {
+  adherent: {
     nombre_sceance_restantes: number;
   };
 }
@@ -22,34 +22,57 @@ export default function Dashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [sports, setSports] = useState<SportData[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadUserSports = async () => {
+      // Step 1: Get the signed-in user
       const {
         data: { user },
         error: userError,
       } = await supabase.auth.getUser();
-     
 
       if (userError || !user) {
-        console.error("User not signed in or error:", userError);
         router.push("/signin");
         return;
       }
 
-      try {
-        const response = await fetch(`/api/dashboard/user-sports?email=${user.email}`);
-        const result = await response.json();
+      // Step 2: Get adherent info from their email
+      const { data: adherentData, error: adherentError } = await supabase
+        .from("Adherent")
+        .select("id_adherent, nombre_sceance_restantes")
+        .eq("email", user.email)
+        .single();
 
-        if (!response.ok) {
-          throw new Error(result.error || "Failed to fetch sports");
-        }
-
-        setSports(result);
-      } catch (err) {
-        console.error("Error loading dashboard data:", err);
+      if (adherentError || !adherentData) {
+        console.error("Error fetching adherent:", adherentError);
+        setError(adherentError?.message || "Adherent not found.");
+        setLoading(false);
+        return;
       }
 
+      // Step 3: Get sports linked to the adherent
+      const { data: sportData, error: sportError } = await supabase
+        .from("Adherent_sport")
+        .select("Sport (Name)")
+        .eq("id_adherent", adherentData.id_adherent);
+
+      if (sportError) {
+        console.error("Error fetching sports:", sportError);
+        setError(sportError.message);
+        setLoading(false);
+        return;
+      }
+
+      // Step 4: Combine sport data with adherent's remaining sessions
+      const combinedData = (sportData || []).map((item: any) => ({
+        sport: item.Sport,
+        adherent: {
+          nombre_sceance_restantes: adherentData.nombre_sceance_restantes,
+        },
+      }));
+
+      setSports(combinedData);
       setLoading(false);
     };
 
@@ -64,41 +87,50 @@ export default function Dashboard() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
+  if (sports.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-white">No sports data available.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-between gap-6 mt-6">
       <div className="flex-1 flex flex-col gap-6">
-        {/* Top Row: CircularProgress + Sports */}
-        <div className="flex gap-6">
-          <div className="grid grid-cols-2 gap-6 w-full h-full">
-            {sports.map((item, index) => (
-              <Link
-                key={index}
-                href={`/dashboard/sports/${encodeURIComponent(item.sport.Name)}`}
-              >
-                <DashboardSportCard
-                  sport={item.sport.Name}
-                  sessions={`${item.Adherent.nombre_sceance_restantes} sessions`}
-                  period="left"
-                  hasIncreased={false}
-                  backgroundImage={`/pictures/Dashboard/Sports/${item.sport.Name}.png`}
-                />
-              </Link>
-            ))}
-            <div className="col-span-2 text-center mt-4">
-              <Link href="/dashboard/sport">
-                <button className="bg-yellow-400 text-black py-2 px-6 rounded-lg text-lg font-medium hover:bg-yellow-500 transition">
-                  View All Sports
-                </button>
-              </Link>
-            </div>
+        <div className="grid grid-cols-2 gap-6 w-full">
+          {sports.map((item, idx) => (
+            <Link
+              key={idx}
+              href={`/dashboard/sports/${encodeURIComponent(item.sport.Name)}`}
+            >
+              <DashboardSportCard
+                sport={item.sport.Name}
+                sessions={`${item.adherent.nombre_sceance_restantes} sessions`}
+                period="left"
+                hasIncreased={false}
+                backgroundImage={`/pictures/Dashboard/Sports/${item.sport.Name}.png`}
+              />
+            </Link>
+          ))}
+          <div className="col-span-2 text-center mt-4">
+            <Link href="/dashboard/sport">
+              <button className="bg-yellow-400 text-black py-2 px-6 rounded-lg text-lg font-medium hover:bg-yellow-500 transition">
+                View All Sports
+              </button>
+            </Link>
           </div>
         </div>
-
-        {/* Mealcard below sports */}
         <Mealcard />
       </div>
-
-      {/* Right Sidebar: Calendar + Sessions */}
       <div className="w-full sm:w-[300px] lg:w-[350px] flex-shrink-0">
         <div className="mb-6">
           <CircularProgressCountUp />

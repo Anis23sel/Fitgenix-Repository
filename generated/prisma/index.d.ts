@@ -1,132 +1,38 @@
 
 /**
  * Client
- */
+**/
 
-import * as runtime from '@prisma/client/runtime/library'
-import * as process from 'node:process'
-import * as path from 'node:path'
-    import { fileURLToPath } from 'node:url'
+import * as runtime from './runtime/library.js';
+import $Types = runtime.Types // general types
+import $Public = runtime.Types.Public
+import $Utils = runtime.Types.Utils
+import $Extensions = runtime.Types.Extensions
+import $Result = runtime.Types.Result
 
-    const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-
-export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
+export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
  * Model Adherent
  * 
  */
-export type Adherent = runtime.Types.Result.DefaultSelection<Prisma.$AdherentPayload>
+export type Adherent = $Result.DefaultSelection<Prisma.$AdherentPayload>
 /**
  * Model Adherent_sport
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
-export type Adherent_sport = runtime.Types.Result.DefaultSelection<Prisma.$Adherent_sportPayload>
+export type Adherent_sport = $Result.DefaultSelection<Prisma.$Adherent_sportPayload>
 /**
  * Model Sport
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
-export type Sport = runtime.Types.Result.DefaultSelection<Prisma.$SportPayload>
-
-
+export type Sport = $Result.DefaultSelection<Prisma.$SportPayload>
 
 /**
- * Create the Client
- */
-const config: runtime.GetPrismaClientConfig = {
-  "generator": {
-    "name": "client",
-    "provider": {
-      "fromEnvVar": null,
-      "value": "prisma-client"
-    },
-    "output": {
-      "value": "C:\\Users\\Anis\\Desktop\\flash mémoire\\FitGenix\\FitGenix\\Fitgenix-Repository\\src\\generated\\prisma",
-      "fromEnvVar": null
-    },
-    "config": {
-      "moduleFormat": "esm",
-      "engineType": "library"
-    },
-    "binaryTargets": [
-      {
-        "fromEnvVar": null,
-        "value": "windows",
-        "native": true
-      }
-    ],
-    "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Anis\\Desktop\\flash mémoire\\FitGenix\\FitGenix\\Fitgenix-Repository\\prisma\\schema.prisma",
-    "isCustomOutput": true
-  },
-  "relativePath": "../../../prisma",
-  "clientVersion": "6.6.0",
-  "engineVersion": "f676762280b54cd07c770017ed3711ddde35f37a",
-  "datasourceNames": [
-    "db"
-  ],
-  "activeProvider": "postgresql",
-  "inlineDatasources": {
-    "db": {
-      "url": {
-        "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres.cfdofxpnnazfkiziekph:Anissel23@aws-0-eu-central-1.pooler.supabase.com:6543/postgres"
-      }
-    }
-  },
-  "inlineSchema": "generator client {\n  provider     = \"prisma-client\" // no `-js` at the end\n  output       = \"../src/generated/prisma\" // `output` is required\n  moduleFormat = \"esm\" // or `\"cjs\"` for CommonJS\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel Adherent {\n  id_adherent              Int              @id @default(autoincrement())\n  nom                      String           @db.VarChar(100)\n  prenom                   String           @db.VarChar(100)\n  email                    String           @unique @db.VarChar(150)\n  password                 String           @db.VarChar(255)\n  age                      Int\n  gender                   String           @db.VarChar(10)\n  goal                     String?          @db.VarChar(255)\n  nombre_sceance_restantes Int              @default(0)\n  nombre_heures_restantes  Int              @default(0)\n  role                     String?          @default(\"Athlete\")\n  Adherent_sport           Adherent_sport[]\n}\n\n/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.\nmodel Adherent_sport {\n  id_sport    BigInt\n  id          Int      @id @default(autoincrement())\n  id_adherent Int\n  Adherent    Adherent @relation(fields: [id_adherent], references: [id_adherent], onDelete: Cascade)\n  Sport       Sport    @relation(fields: [id_sport], references: [id_sport], onDelete: Cascade)\n}\n\n/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.\nmodel Sport {\n  id_sport       BigInt           @id @default(autoincrement())\n  Name           String\n  Date           DateTime?        @db.Date\n  Starting_time  DateTime?        @db.Time(6)\n  Ending_time    DateTime?        @db.Time(6)\n  Adherent_sport Adherent_sport[]\n}\n",
-  "inlineSchemaHash": "5a3cb6bc3fdfb5a8bd8fef6ceb56dfc119999ae6a472bb571f271a7ee973b214",
-  "copyEngine": true,
-  "runtimeDataModel": {
-    "models": {},
-    "enums": {},
-    "types": {}
-  },
-  "dirname": ""
-}
-config.dirname = __dirname
-
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Adherent\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id_adherent\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"nom\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"100\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"prenom\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"100\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"150\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"password\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"255\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"age\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"gender\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"10\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"goal\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":[\"VarChar\",[\"255\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"nombre_sceance_restantes\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":0,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"nombre_heures_restantes\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":0,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"role\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"String\",\"nativeType\":null,\"default\":\"Athlete\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Adherent_sport\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Adherent_sport\",\"nativeType\":null,\"relationName\":\"AdherentToAdherent_sport\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Adherent_sport\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id_sport\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"BigInt\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"id_adherent\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Adherent\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Adherent\",\"nativeType\":null,\"relationName\":\"AdherentToAdherent_sport\",\"relationFromFields\":[\"id_adherent\"],\"relationToFields\":[\"id_adherent\"],\"relationOnDelete\":\"Cascade\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Sport\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Sport\",\"nativeType\":null,\"relationName\":\"Adherent_sportToSport\",\"relationFromFields\":[\"id_sport\"],\"relationToFields\":[\"id_sport\"],\"relationOnDelete\":\"Cascade\",\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false,\"documentation\":\"This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.\"},\"Sport\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id_sport\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"BigInt\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Date\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"DateTime\",\"nativeType\":[\"Date\",[]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Starting_time\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"DateTime\",\"nativeType\":[\"Time\",[\"6\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Ending_time\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"DateTime\",\"nativeType\":[\"Time\",[\"6\"]],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"Adherent_sport\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Adherent_sport\",\"nativeType\":null,\"relationName\":\"Adherent_sportToSport\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false,\"documentation\":\"This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.\"}},\"enums\":{},\"types\":{}}")
-config.engineWasm = undefined
-config.compilerWasm = undefined
-
-
-
-// file annotations for bundling tools to include these files
-path.join(__dirname, "query_engine-windows.dll.node")
-path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
-// file annotations for bundling tools to include these files
-path.join(__dirname, "schema.prisma")
-path.join(process.cwd(), "src/generated/prisma/schema.prisma")
-
-
-interface PrismaClientConstructor {
-    /**
-   * ## Prisma Client
-   *
-   * Type-safe database client for TypeScript
-   * @example
-   * ```
-   * const prisma = new PrismaClient()
-   * // Fetch zero or more Adherents
-   * const adherents = await prisma.adherent.findMany()
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
-   */
-  new <
-    ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-    U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
-    ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
-  >(options?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>): PrismaClient<ClientOptions, U, ExtArgs>
-}
-
-/**
- * ## Prisma Client
+ * ##  Prisma Client ʲˢ
  *
- * Type-safe database client for TypeScript
+ * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
  * const prisma = new PrismaClient()
@@ -134,26 +40,43 @@ interface PrismaClientConstructor {
  * const adherents = await prisma.adherent.findMany()
  * ```
  *
+ *
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
  */
-export interface PrismaClient<
+export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
   U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
-  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs
+  ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
 
+    /**
+   * ##  Prisma Client ʲˢ
+   *
+   * Type-safe database client for TypeScript & Node.js
+   * @example
+   * ```
+   * const prisma = new PrismaClient()
+   * // Fetch zero or more Adherents
+   * const adherents = await prisma.adherent.findMany()
+   * ```
+   *
+   *
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   */
+
+  constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
   $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): PrismaClient;
 
   /**
    * Connect with the database
    */
-  $connect(): runtime.Types.Utils.JsPromise<void>;
+  $connect(): $Utils.JsPromise<void>;
 
   /**
    * Disconnect from the database
    */
-  $disconnect(): runtime.Types.Utils.JsPromise<void>;
+  $disconnect(): $Utils.JsPromise<void>;
 
   /**
    * Add a middleware
@@ -222,12 +145,12 @@ export interface PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
-  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => runtime.Types.Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<R>
+  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
 
-  $extends: runtime.Types.Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, runtime.Types.Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
+  $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
   }>>
 
@@ -262,54 +185,40 @@ export interface PrismaClient<
   get sport(): Prisma.SportDelegate<ExtArgs, ClientOptions>;
 }
 
-export const PrismaClient = runtime.getPrismaClient(config) as unknown as PrismaClientConstructor
-
 export namespace Prisma {
-  export type DMMF = typeof runtime.DMMF
+  export import DMMF = runtime.DMMF
 
-  export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
+  export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
   /**
    * Validator
    */
-  export const validator = runtime.Public.validator
+  export import validator = runtime.Public.validator
 
   /**
    * Prisma Errors
    */
-
-  export const PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
-  export type PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
-
-  export const PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
-  export type PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
-
-  export const PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
-  export type PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
-
-  export const PrismaClientInitializationError = runtime.PrismaClientInitializationError
-  export type PrismaClientInitializationError = runtime.PrismaClientInitializationError
-
-  export const PrismaClientValidationError = runtime.PrismaClientValidationError
-  export type PrismaClientValidationError = runtime.PrismaClientValidationError
+  export import PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
+  export import PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
+  export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
+  export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
+  export import PrismaClientValidationError = runtime.PrismaClientValidationError
 
   /**
    * Re-export of sql-template-tag
    */
-  export const sql = runtime.sqltag
-  export const empty = runtime.empty
-  export const join = runtime.join
-  export const raw = runtime.raw
-  export const Sql = runtime.Sql
-  export type Sql = runtime.Sql
+  export import sql = runtime.sqltag
+  export import empty = runtime.empty
+  export import join = runtime.join
+  export import raw = runtime.raw
+  export import Sql = runtime.Sql
 
 
 
   /**
    * Decimal.js
    */
-  export const Decimal = runtime.Decimal
-  export type Decimal = runtime.Decimal
+  export import Decimal = runtime.Decimal
 
   export type DecimalJsLike = runtime.DecimalJsLike
 
@@ -324,43 +233,76 @@ export namespace Prisma {
   /**
   * Extensions
   */
-  export type Extension = runtime.Types.Extensions.UserArgs
-  export const getExtensionContext = runtime.Extensions.getExtensionContext
-  export type Args<T, F extends runtime.Operation> = runtime.Types.Public.Args<T, F>
-  export type Payload<T, F extends runtime.Operation = never> = runtime.Types.Public.Payload<T, F>
-  export type Result<T, A, F extends runtime.Operation> = runtime.Types.Public.Result<T, A, F>
-  export type Exact<A, W> = runtime.Types.Public.Exact<A, W>
-
-  export type PrismaVersion = {
-    client: string
-    engine: string
-  }
+  export import Extension = $Extensions.UserArgs
+  export import getExtensionContext = runtime.Extensions.getExtensionContext
+  export import Args = $Public.Args
+  export import Payload = $Public.Payload
+  export import Result = $Public.Result
+  export import Exact = $Public.Exact
 
   /**
    * Prisma Client JS version: 6.6.0
    * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
    */
-  export const prismaVersion: PrismaVersion = {
-    client: "6.6.0",
-    engine: "f676762280b54cd07c770017ed3711ddde35f37a"
+  export type PrismaVersion = {
+    client: string
   }
+
+  export const prismaVersion: PrismaVersion
 
   /**
    * Utility Types
    */
 
 
-  export type JsonObject = runtime.JsonObject
-  export type JsonArray = runtime.JsonArray
-  export type JsonValue = runtime.JsonValue
-  export type InputJsonObject = runtime.InputJsonObject
-  export type InputJsonArray = runtime.InputJsonArray
-  export type InputJsonValue = runtime.InputJsonValue
+  export import JsonObject = runtime.JsonObject
+  export import JsonArray = runtime.JsonArray
+  export import JsonValue = runtime.JsonValue
+  export import InputJsonObject = runtime.InputJsonObject
+  export import InputJsonArray = runtime.InputJsonArray
+  export import InputJsonValue = runtime.InputJsonValue
 
-  export const NullTypes = {
-    DbNull: runtime.objectEnumValues.classes.DbNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.DbNull),
-    JsonNull: runtime.objectEnumValues.classes.JsonNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.JsonNull),
-    AnyNull: runtime.objectEnumValues.classes.AnyNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.AnyNull),
+  /**
+   * Types of the values used to represent different kinds of `null` values when working with JSON fields.
+   *
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  namespace NullTypes {
+    /**
+    * Type of `Prisma.DbNull`.
+    *
+    * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
+    *
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class DbNull {
+      private DbNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.JsonNull`.
+    *
+    * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
+    *
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class JsonNull {
+      private JsonNull: never
+      private constructor()
+    }
+
+    /**
+    * Type of `Prisma.AnyNull`.
+    *
+    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+    *
+    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+    */
+    class AnyNull {
+      private AnyNull: never
+      private constructor()
+    }
   }
 
   /**
@@ -368,21 +310,21 @@ export namespace Prisma {
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const DbNull = runtime.objectEnumValues.instances.DbNull
+  export const DbNull: NullTypes.DbNull
 
   /**
    * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const JsonNull = runtime.objectEnumValues.instances.JsonNull
+  export const JsonNull: NullTypes.JsonNull
 
   /**
    * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const AnyNull = runtime.objectEnumValues.instances.AnyNull
+  export const AnyNull: NullTypes.AnyNull
 
   type SelectAndInclude = {
     select: any
@@ -395,13 +337,34 @@ export namespace Prisma {
   }
 
   /**
+   * Get the type of the value, that the Promise holds.
+   */
+  export type PromiseType<T extends PromiseLike<any>> = T extends PromiseLike<infer U> ? U : T;
+
+  /**
+   * Get the return type of a function which returns a Promise.
+   */
+  export type PromiseReturnType<T extends (...args: any) => $Utils.JsPromise<any>> = PromiseType<ReturnType<T>>
+
+  /**
    * From T, pick a set of properties whose keys are in the union K
    */
   type Prisma__Pick<T, K extends keyof T> = {
       [P in K]: T[P];
   };
 
+
   export type Enumerable<T> = T | Array<T>;
+
+  export type RequiredKeys<T> = {
+    [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K
+  }[keyof T]
+
+  export type TruthyKeys<T> = keyof {
+    [K in keyof T as T[K] extends false | undefined | null ? never : K]: K
+  }
+
+  export type TrueKeys<T> = TruthyKeys<Prisma__Pick<T, RequiredKeys<T>>>
 
   /**
    * Subset
@@ -519,6 +482,7 @@ export namespace Prisma {
   }>>;
 
   type Key = string | number | symbol;
+  type AtBasic<O extends object, K extends Key> = K extends keyof O ? O[K] : never;
   type AtStrict<O extends object, K extends Key> = O[K & keyof O];
   type AtLoose<O extends object, K extends Key> = O extends unknown ? AtStrict<O, K> : never;
   export type At<O extends object, K extends Key, strict extends Boolean = 1> = {
@@ -542,7 +506,7 @@ export namespace Prisma {
   type NoExpand<T> = T extends unknown ? T : never;
 
   // this type assumes the passed object is entirely optional
-  export type AtLeast<O extends object, K extends string> = NoExpand<
+  type AtLeast<O extends object, K extends string> = NoExpand<
     O extends unknown
     ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
       | {[P in keyof O as P extends K ? P : never]-?: O[P]} & O
@@ -555,10 +519,19 @@ export namespace Prisma {
 
   export type Merge<U extends object> = ComputeRaw<_Merge<Strict<U>>>;
 
+  /**
+  A [[Boolean]]
+  */
   export type Boolean = True | False
 
+  // /**
+  // 1
+  // */
   export type True = 1
 
+  /**
+  0
+  */
   export type False = 0
 
   export type Not<B extends Boolean> = {
@@ -588,6 +561,16 @@ export namespace Prisma {
   }[B1][B2]
 
   export type Keys<U extends Union> = U extends unknown ? keyof U : never
+
+  type Cast<A, B> = A extends B ? A : B;
+
+  export const type: unique symbol;
+
+
+
+  /**
+   * Used by group by
+   */
 
   export type GetScalarType<T, O> = O extends object ? {
     [P in keyof T]: P extends keyof O
@@ -639,11 +622,11 @@ export namespace Prisma {
   type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
 
 
-  export const ModelName = {
+  export const ModelName: {
     Adherent: 'Adherent',
     Adherent_sport: 'Adherent_sport',
     Sport: 'Sport'
-  } as const
+  };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
@@ -652,11 +635,11 @@ export namespace Prisma {
     db?: Datasource
   }
 
-  export interface TypeMapCb<ClientOptions = {}> extends runtime.Types.Utils.Fn<{extArgs: runtime.Types.Extensions.InternalArgs }, runtime.Types.Utils.Record<string, any>> {
+  interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
   }
 
-  export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> = {
+  export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> = {
     globalOmitOptions: {
       omit: GlobalOmitOptions
     }
@@ -671,27 +654,27 @@ export namespace Prisma {
         operations: {
           findUnique: {
             args: Prisma.AdherentFindUniqueArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload> | null
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload> | null
           }
           findUniqueOrThrow: {
             args: Prisma.AdherentFindUniqueOrThrowArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>
           }
           findFirst: {
             args: Prisma.AdherentFindFirstArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload> | null
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload> | null
           }
           findFirstOrThrow: {
             args: Prisma.AdherentFindFirstOrThrowArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>
           }
           findMany: {
             args: Prisma.AdherentFindManyArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>[]
           }
           create: {
             args: Prisma.AdherentCreateArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>
           }
           createMany: {
             args: Prisma.AdherentCreateManyArgs<ExtArgs>
@@ -699,15 +682,15 @@ export namespace Prisma {
           }
           createManyAndReturn: {
             args: Prisma.AdherentCreateManyAndReturnArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>[]
           }
           delete: {
             args: Prisma.AdherentDeleteArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>
           }
           update: {
             args: Prisma.AdherentUpdateArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>
           }
           deleteMany: {
             args: Prisma.AdherentDeleteManyArgs<ExtArgs>
@@ -719,23 +702,23 @@ export namespace Prisma {
           }
           updateManyAndReturn: {
             args: Prisma.AdherentUpdateManyAndReturnArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>[]
           }
           upsert: {
             args: Prisma.AdherentUpsertArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$AdherentPayload>
+            result: $Utils.PayloadToResult<Prisma.$AdherentPayload>
           }
           aggregate: {
             args: Prisma.AdherentAggregateArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<AggregateAdherent>
+            result: $Utils.Optional<AggregateAdherent>
           }
           groupBy: {
             args: Prisma.AdherentGroupByArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<AdherentGroupByOutputType>[]
+            result: $Utils.Optional<AdherentGroupByOutputType>[]
           }
           count: {
             args: Prisma.AdherentCountArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<AdherentCountAggregateOutputType> | number
+            result: $Utils.Optional<AdherentCountAggregateOutputType> | number
           }
         }
       }
@@ -745,27 +728,27 @@ export namespace Prisma {
         operations: {
           findUnique: {
             args: Prisma.Adherent_sportFindUniqueArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload> | null
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload> | null
           }
           findUniqueOrThrow: {
             args: Prisma.Adherent_sportFindUniqueOrThrowArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
           }
           findFirst: {
             args: Prisma.Adherent_sportFindFirstArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload> | null
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload> | null
           }
           findFirstOrThrow: {
             args: Prisma.Adherent_sportFindFirstOrThrowArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
           }
           findMany: {
             args: Prisma.Adherent_sportFindManyArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>[]
           }
           create: {
             args: Prisma.Adherent_sportCreateArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
           }
           createMany: {
             args: Prisma.Adherent_sportCreateManyArgs<ExtArgs>
@@ -773,15 +756,15 @@ export namespace Prisma {
           }
           createManyAndReturn: {
             args: Prisma.Adherent_sportCreateManyAndReturnArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>[]
           }
           delete: {
             args: Prisma.Adherent_sportDeleteArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
           }
           update: {
             args: Prisma.Adherent_sportUpdateArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
           }
           deleteMany: {
             args: Prisma.Adherent_sportDeleteManyArgs<ExtArgs>
@@ -793,23 +776,23 @@ export namespace Prisma {
           }
           updateManyAndReturn: {
             args: Prisma.Adherent_sportUpdateManyAndReturnArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>[]
           }
           upsert: {
             args: Prisma.Adherent_sportUpsertArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
+            result: $Utils.PayloadToResult<Prisma.$Adherent_sportPayload>
           }
           aggregate: {
             args: Prisma.Adherent_sportAggregateArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<AggregateAdherent_sport>
+            result: $Utils.Optional<AggregateAdherent_sport>
           }
           groupBy: {
             args: Prisma.Adherent_sportGroupByArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<Adherent_sportGroupByOutputType>[]
+            result: $Utils.Optional<Adherent_sportGroupByOutputType>[]
           }
           count: {
             args: Prisma.Adherent_sportCountArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<Adherent_sportCountAggregateOutputType> | number
+            result: $Utils.Optional<Adherent_sportCountAggregateOutputType> | number
           }
         }
       }
@@ -819,27 +802,27 @@ export namespace Prisma {
         operations: {
           findUnique: {
             args: Prisma.SportFindUniqueArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload> | null
+            result: $Utils.PayloadToResult<Prisma.$SportPayload> | null
           }
           findUniqueOrThrow: {
             args: Prisma.SportFindUniqueOrThrowArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>
           }
           findFirst: {
             args: Prisma.SportFindFirstArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload> | null
+            result: $Utils.PayloadToResult<Prisma.$SportPayload> | null
           }
           findFirstOrThrow: {
             args: Prisma.SportFindFirstOrThrowArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>
           }
           findMany: {
             args: Prisma.SportFindManyArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>[]
           }
           create: {
             args: Prisma.SportCreateArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>
           }
           createMany: {
             args: Prisma.SportCreateManyArgs<ExtArgs>
@@ -847,15 +830,15 @@ export namespace Prisma {
           }
           createManyAndReturn: {
             args: Prisma.SportCreateManyAndReturnArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>[]
           }
           delete: {
             args: Prisma.SportDeleteArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>
           }
           update: {
             args: Prisma.SportUpdateArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>
           }
           deleteMany: {
             args: Prisma.SportDeleteManyArgs<ExtArgs>
@@ -867,23 +850,23 @@ export namespace Prisma {
           }
           updateManyAndReturn: {
             args: Prisma.SportUpdateManyAndReturnArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>[]
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>[]
           }
           upsert: {
             args: Prisma.SportUpsertArgs<ExtArgs>
-            result: runtime.Types.Utils.PayloadToResult<Prisma.$SportPayload>
+            result: $Utils.PayloadToResult<Prisma.$SportPayload>
           }
           aggregate: {
             args: Prisma.SportAggregateArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<AggregateSport>
+            result: $Utils.Optional<AggregateSport>
           }
           groupBy: {
             args: Prisma.SportGroupByArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<SportGroupByOutputType>[]
+            result: $Utils.Optional<SportGroupByOutputType>[]
           }
           count: {
             args: Prisma.SportCountArgs<ExtArgs>
-            result: runtime.Types.Utils.Optional<SportCountAggregateOutputType> | number
+            result: $Utils.Optional<SportCountAggregateOutputType> | number
           }
         }
       }
@@ -911,7 +894,7 @@ export namespace Prisma {
       }
     }
   }
-  export const defineExtension = runtime.Extensions.defineExtension as unknown as runtime.Types.Extensions.ExtendsHook<"define", Prisma.TypeMapCb, runtime.Types.Extensions.DefaultArgs>
+  export const defineExtension: $Extensions.ExtendsHook<"define", Prisma.TypeMapCb, $Extensions.DefaultArgs>
   export type DefaultPrismaClient = PrismaClient
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
   export interface PrismaClientOptions {
@@ -1043,8 +1026,11 @@ export namespace Prisma {
    */
   export type Middleware<T = any> = (
     params: MiddlewareParams,
-    next: (params: MiddlewareParams) => runtime.Types.Utils.JsPromise<T>,
-  ) => runtime.Types.Utils.JsPromise<T>
+    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
+  ) => $Utils.JsPromise<T>
+
+  // tested in getLogLevel.test.ts
+  export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
 
   /**
    * `PrismaClient` proxy available in interactive transactions.
@@ -1068,7 +1054,7 @@ export namespace Prisma {
     Adherent_sport: number
   }
 
-  export type AdherentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Adherent_sport?: boolean | AdherentCountOutputTypeCountAdherent_sportArgs
   }
 
@@ -1076,7 +1062,7 @@ export namespace Prisma {
   /**
    * AdherentCountOutputType without action
    */
-  export type AdherentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AdherentCountOutputType
      */
@@ -1086,7 +1072,7 @@ export namespace Prisma {
   /**
    * AdherentCountOutputType without action
    */
-  export type AdherentCountOutputTypeCountAdherent_sportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentCountOutputTypeCountAdherent_sportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: Adherent_sportWhereInput
   }
 
@@ -1099,7 +1085,7 @@ export namespace Prisma {
     Adherent_sport: number
   }
 
-  export type SportCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Adherent_sport?: boolean | SportCountOutputTypeCountAdherent_sportArgs
   }
 
@@ -1107,7 +1093,7 @@ export namespace Prisma {
   /**
    * SportCountOutputType without action
    */
-  export type SportCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SportCountOutputType
      */
@@ -1117,7 +1103,7 @@ export namespace Prisma {
   /**
    * SportCountOutputType without action
    */
-  export type SportCountOutputTypeCountAdherent_sportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportCountOutputTypeCountAdherent_sportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: Adherent_sportWhereInput
   }
 
@@ -1253,7 +1239,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type AdherentAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Adherent to aggregate.
      */
@@ -1325,7 +1311,7 @@ export namespace Prisma {
 
 
 
-  export type AdherentGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AdherentWhereInput
     orderBy?: AdherentOrderByWithAggregationInput | AdherentOrderByWithAggregationInput[]
     by: AdherentScalarFieldEnum[] | AdherentScalarFieldEnum
@@ -1372,7 +1358,7 @@ export namespace Prisma {
     >
 
 
-  export type AdherentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type AdherentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_adherent?: boolean
     nom?: boolean
     prenom?: boolean
@@ -1388,7 +1374,7 @@ export namespace Prisma {
     _count?: boolean | AdherentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["adherent"]>
 
-  export type AdherentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type AdherentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_adherent?: boolean
     nom?: boolean
     prenom?: boolean
@@ -1402,7 +1388,7 @@ export namespace Prisma {
     role?: boolean
   }, ExtArgs["result"]["adherent"]>
 
-  export type AdherentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type AdherentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_adherent?: boolean
     nom?: boolean
     prenom?: boolean
@@ -1430,20 +1416,20 @@ export namespace Prisma {
     role?: boolean
   }
 
-  export type AdherentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_adherent" | "nom" | "prenom" | "email" | "password" | "age" | "gender" | "goal" | "nombre_sceance_restantes" | "nombre_heures_restantes" | "role", ExtArgs["result"]["adherent"]>
-  export type AdherentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_adherent" | "nom" | "prenom" | "email" | "password" | "age" | "gender" | "goal" | "nombre_sceance_restantes" | "nombre_heures_restantes" | "role", ExtArgs["result"]["adherent"]>
+  export type AdherentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Adherent_sport?: boolean | Adherent$Adherent_sportArgs<ExtArgs>
     _count?: boolean | AdherentCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type AdherentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-  export type AdherentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+  export type AdherentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type AdherentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $AdherentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type $AdherentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Adherent"
     objects: {
       Adherent_sport: Prisma.$Adherent_sportPayload<ExtArgs>[]
     }
-    scalars: runtime.Types.Extensions.GetPayloadResult<{
+    scalars: $Extensions.GetPayloadResult<{
       id_adherent: number
       nom: string
       prenom: string
@@ -1459,14 +1445,14 @@ export namespace Prisma {
     composites: {}
   }
 
-  export type AdherentGetPayload<S extends boolean | null | undefined | AdherentDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$AdherentPayload, S>
+  type AdherentGetPayload<S extends boolean | null | undefined | AdherentDefaultArgs> = $Result.GetResult<Prisma.$AdherentPayload, S>
 
-  export type AdherentCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
+  type AdherentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
     Omit<AdherentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: AdherentCountAggregateInputType | true
     }
 
-  export interface AdherentDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+  export interface AdherentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Adherent'], meta: { name: 'Adherent' } }
     /**
      * Find zero or one Adherent that matches the filter.
@@ -1479,7 +1465,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends AdherentFindUniqueArgs>(args: SelectSubset<T, AdherentFindUniqueArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends AdherentFindUniqueArgs>(args: SelectSubset<T, AdherentFindUniqueArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one Adherent that matches the filter or throw an error with `error.code='P2025'`
@@ -1493,7 +1479,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AdherentFindUniqueOrThrowArgs>(args: SelectSubset<T, AdherentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends AdherentFindUniqueOrThrowArgs>(args: SelectSubset<T, AdherentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Adherent that matches the filter.
@@ -1508,7 +1494,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends AdherentFindFirstArgs>(args?: SelectSubset<T, AdherentFindFirstArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends AdherentFindFirstArgs>(args?: SelectSubset<T, AdherentFindFirstArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Adherent that matches the filter or
@@ -1524,7 +1510,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends AdherentFindFirstOrThrowArgs>(args?: SelectSubset<T, AdherentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends AdherentFindFirstOrThrowArgs>(args?: SelectSubset<T, AdherentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Adherents that matches the filter.
@@ -1542,7 +1528,7 @@ export namespace Prisma {
      * const adherentWithId_adherentOnly = await prisma.adherent.findMany({ select: { id_adherent: true } })
      * 
      */
-    findMany<T extends AdherentFindManyArgs>(args?: SelectSubset<T, AdherentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends AdherentFindManyArgs>(args?: SelectSubset<T, AdherentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Adherent.
@@ -1556,7 +1542,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends AdherentCreateArgs>(args: SelectSubset<T, AdherentCreateArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends AdherentCreateArgs>(args: SelectSubset<T, AdherentCreateArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Adherents.
@@ -1594,7 +1580,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends AdherentCreateManyAndReturnArgs>(args?: SelectSubset<T, AdherentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends AdherentCreateManyAndReturnArgs>(args?: SelectSubset<T, AdherentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Adherent.
@@ -1608,7 +1594,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends AdherentDeleteArgs>(args: SelectSubset<T, AdherentDeleteArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends AdherentDeleteArgs>(args: SelectSubset<T, AdherentDeleteArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Adherent.
@@ -1625,7 +1611,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends AdherentUpdateArgs>(args: SelectSubset<T, AdherentUpdateArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends AdherentUpdateArgs>(args: SelectSubset<T, AdherentUpdateArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Adherents.
@@ -1688,7 +1674,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends AdherentUpdateManyAndReturnArgs>(args: SelectSubset<T, AdherentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends AdherentUpdateManyAndReturnArgs>(args: SelectSubset<T, AdherentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Adherent.
@@ -1707,7 +1693,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends AdherentUpsertArgs>(args: SelectSubset<T, AdherentUpsertArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends AdherentUpsertArgs>(args: SelectSubset<T, AdherentUpsertArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -1726,7 +1712,7 @@ export namespace Prisma {
     count<T extends AdherentCountArgs>(
       args?: Subset<T, AdherentCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends runtime.Types.Utils.Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], AdherentCountAggregateOutputType>
@@ -1847,29 +1833,29 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__AdherentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__AdherentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Adherent_sport<T extends Adherent$Adherent_sportArgs<ExtArgs> = {}>(args?: Subset<T, Adherent$Adherent_sportArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Adherent_sport<T extends Adherent$Adherent_sportArgs<ExtArgs> = {}>(args?: Subset<T, Adherent$Adherent_sportArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of which ever callback is executed.
      */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
     /**
      * Attaches a callback for only the rejection of the Promise.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of the callback.
      */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
      * resolved value cannot be modified from the callback.
      * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
      * @returns A Promise for the completion of the callback.
      */
-    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
 
@@ -1878,7 +1864,7 @@ export namespace Prisma {
   /**
    * Fields of the Adherent model
    */
-  export interface AdherentFieldRefs {
+  interface AdherentFieldRefs {
     readonly id_adherent: FieldRef<"Adherent", 'Int'>
     readonly nom: FieldRef<"Adherent", 'String'>
     readonly prenom: FieldRef<"Adherent", 'String'>
@@ -1897,7 +1883,7 @@ export namespace Prisma {
   /**
    * Adherent findUnique
    */
-  export type AdherentFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -1919,7 +1905,7 @@ export namespace Prisma {
   /**
    * Adherent findUniqueOrThrow
    */
-  export type AdherentFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -1941,7 +1927,7 @@ export namespace Prisma {
   /**
    * Adherent findFirst
    */
-  export type AdherentFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -1993,7 +1979,7 @@ export namespace Prisma {
   /**
    * Adherent findFirstOrThrow
    */
-  export type AdherentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2045,7 +2031,7 @@ export namespace Prisma {
   /**
    * Adherent findMany
    */
-  export type AdherentFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2092,7 +2078,7 @@ export namespace Prisma {
   /**
    * Adherent create
    */
-  export type AdherentCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2114,7 +2100,7 @@ export namespace Prisma {
   /**
    * Adherent createMany
    */
-  export type AdherentCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Adherents.
      */
@@ -2125,7 +2111,7 @@ export namespace Prisma {
   /**
    * Adherent createManyAndReturn
    */
-  export type AdherentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2144,7 +2130,7 @@ export namespace Prisma {
   /**
    * Adherent update
    */
-  export type AdherentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2170,7 +2156,7 @@ export namespace Prisma {
   /**
    * Adherent updateMany
    */
-  export type AdherentUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Adherents.
      */
@@ -2188,7 +2174,7 @@ export namespace Prisma {
   /**
    * Adherent updateManyAndReturn
    */
-  export type AdherentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2214,7 +2200,7 @@ export namespace Prisma {
   /**
    * Adherent upsert
    */
-  export type AdherentUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2244,7 +2230,7 @@ export namespace Prisma {
   /**
    * Adherent delete
    */
-  export type AdherentDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2266,7 +2252,7 @@ export namespace Prisma {
   /**
    * Adherent deleteMany
    */
-  export type AdherentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Adherents to delete
      */
@@ -2280,7 +2266,7 @@ export namespace Prisma {
   /**
    * Adherent.Adherent_sport
    */
-  export type Adherent$Adherent_sportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent$Adherent_sportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -2304,7 +2290,7 @@ export namespace Prisma {
   /**
    * Adherent without action
    */
-  export type AdherentDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type AdherentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent
      */
@@ -2395,7 +2381,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type Adherent_sportAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Adherent_sport to aggregate.
      */
@@ -2467,7 +2453,7 @@ export namespace Prisma {
 
 
 
-  export type Adherent_sportGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: Adherent_sportWhereInput
     orderBy?: Adherent_sportOrderByWithAggregationInput | Adherent_sportOrderByWithAggregationInput[]
     by: Adherent_sportScalarFieldEnum[] | Adherent_sportScalarFieldEnum
@@ -2506,7 +2492,7 @@ export namespace Prisma {
     >
 
 
-  export type Adherent_sportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type Adherent_sportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_sport?: boolean
     id?: boolean
     id_adherent?: boolean
@@ -2514,7 +2500,7 @@ export namespace Prisma {
     Sport?: boolean | SportDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["adherent_sport"]>
 
-  export type Adherent_sportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type Adherent_sportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_sport?: boolean
     id?: boolean
     id_adherent?: boolean
@@ -2522,7 +2508,7 @@ export namespace Prisma {
     Sport?: boolean | SportDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["adherent_sport"]>
 
-  export type Adherent_sportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type Adherent_sportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_sport?: boolean
     id?: boolean
     id_adherent?: boolean
@@ -2536,27 +2522,27 @@ export namespace Prisma {
     id_adherent?: boolean
   }
 
-  export type Adherent_sportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_sport" | "id" | "id_adherent", ExtArgs["result"]["adherent_sport"]>
-  export type Adherent_sportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_sport" | "id" | "id_adherent", ExtArgs["result"]["adherent_sport"]>
+  export type Adherent_sportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Adherent?: boolean | AdherentDefaultArgs<ExtArgs>
     Sport?: boolean | SportDefaultArgs<ExtArgs>
   }
-  export type Adherent_sportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Adherent?: boolean | AdherentDefaultArgs<ExtArgs>
     Sport?: boolean | SportDefaultArgs<ExtArgs>
   }
-  export type Adherent_sportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Adherent?: boolean | AdherentDefaultArgs<ExtArgs>
     Sport?: boolean | SportDefaultArgs<ExtArgs>
   }
 
-  export type $Adherent_sportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type $Adherent_sportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Adherent_sport"
     objects: {
       Adherent: Prisma.$AdherentPayload<ExtArgs>
       Sport: Prisma.$SportPayload<ExtArgs>
     }
-    scalars: runtime.Types.Extensions.GetPayloadResult<{
+    scalars: $Extensions.GetPayloadResult<{
       id_sport: bigint
       id: number
       id_adherent: number
@@ -2564,14 +2550,14 @@ export namespace Prisma {
     composites: {}
   }
 
-  export type Adherent_sportGetPayload<S extends boolean | null | undefined | Adherent_sportDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload, S>
+  type Adherent_sportGetPayload<S extends boolean | null | undefined | Adherent_sportDefaultArgs> = $Result.GetResult<Prisma.$Adherent_sportPayload, S>
 
-  export type Adherent_sportCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
+  type Adherent_sportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
     Omit<Adherent_sportFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: Adherent_sportCountAggregateInputType | true
     }
 
-  export interface Adherent_sportDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+  export interface Adherent_sportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Adherent_sport'], meta: { name: 'Adherent_sport' } }
     /**
      * Find zero or one Adherent_sport that matches the filter.
@@ -2584,7 +2570,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends Adherent_sportFindUniqueArgs>(args: SelectSubset<T, Adherent_sportFindUniqueArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends Adherent_sportFindUniqueArgs>(args: SelectSubset<T, Adherent_sportFindUniqueArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one Adherent_sport that matches the filter or throw an error with `error.code='P2025'`
@@ -2598,7 +2584,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends Adherent_sportFindUniqueOrThrowArgs>(args: SelectSubset<T, Adherent_sportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends Adherent_sportFindUniqueOrThrowArgs>(args: SelectSubset<T, Adherent_sportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Adherent_sport that matches the filter.
@@ -2613,7 +2599,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends Adherent_sportFindFirstArgs>(args?: SelectSubset<T, Adherent_sportFindFirstArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends Adherent_sportFindFirstArgs>(args?: SelectSubset<T, Adherent_sportFindFirstArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Adherent_sport that matches the filter or
@@ -2629,7 +2615,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends Adherent_sportFindFirstOrThrowArgs>(args?: SelectSubset<T, Adherent_sportFindFirstOrThrowArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends Adherent_sportFindFirstOrThrowArgs>(args?: SelectSubset<T, Adherent_sportFindFirstOrThrowArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Adherent_sports that matches the filter.
@@ -2647,7 +2633,7 @@ export namespace Prisma {
      * const adherent_sportWithId_sportOnly = await prisma.adherent_sport.findMany({ select: { id_sport: true } })
      * 
      */
-    findMany<T extends Adherent_sportFindManyArgs>(args?: SelectSubset<T, Adherent_sportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends Adherent_sportFindManyArgs>(args?: SelectSubset<T, Adherent_sportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Adherent_sport.
@@ -2661,7 +2647,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends Adherent_sportCreateArgs>(args: SelectSubset<T, Adherent_sportCreateArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends Adherent_sportCreateArgs>(args: SelectSubset<T, Adherent_sportCreateArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Adherent_sports.
@@ -2699,7 +2685,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends Adherent_sportCreateManyAndReturnArgs>(args?: SelectSubset<T, Adherent_sportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends Adherent_sportCreateManyAndReturnArgs>(args?: SelectSubset<T, Adherent_sportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Adherent_sport.
@@ -2713,7 +2699,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends Adherent_sportDeleteArgs>(args: SelectSubset<T, Adherent_sportDeleteArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends Adherent_sportDeleteArgs>(args: SelectSubset<T, Adherent_sportDeleteArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Adherent_sport.
@@ -2730,7 +2716,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends Adherent_sportUpdateArgs>(args: SelectSubset<T, Adherent_sportUpdateArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends Adherent_sportUpdateArgs>(args: SelectSubset<T, Adherent_sportUpdateArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Adherent_sports.
@@ -2793,7 +2779,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends Adherent_sportUpdateManyAndReturnArgs>(args: SelectSubset<T, Adherent_sportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends Adherent_sportUpdateManyAndReturnArgs>(args: SelectSubset<T, Adherent_sportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Adherent_sport.
@@ -2812,7 +2798,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends Adherent_sportUpsertArgs>(args: SelectSubset<T, Adherent_sportUpsertArgs<ExtArgs>>): Prisma__Adherent_sportClient<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends Adherent_sportUpsertArgs>(args: SelectSubset<T, Adherent_sportUpsertArgs<ExtArgs>>): Prisma__Adherent_sportClient<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -2831,7 +2817,7 @@ export namespace Prisma {
     count<T extends Adherent_sportCountArgs>(
       args?: Subset<T, Adherent_sportCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends runtime.Types.Utils.Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], Adherent_sportCountAggregateOutputType>
@@ -2952,30 +2938,30 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__Adherent_sportClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__Adherent_sportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Adherent<T extends AdherentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AdherentDefaultArgs<ExtArgs>>): Prisma__AdherentClient<runtime.Types.Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Sport<T extends SportDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SportDefaultArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Adherent<T extends AdherentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AdherentDefaultArgs<ExtArgs>>): Prisma__AdherentClient<$Result.GetResult<Prisma.$AdherentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Sport<T extends SportDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SportDefaultArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of which ever callback is executed.
      */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
     /**
      * Attaches a callback for only the rejection of the Promise.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of the callback.
      */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
      * resolved value cannot be modified from the callback.
      * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
      * @returns A Promise for the completion of the callback.
      */
-    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
 
@@ -2984,7 +2970,7 @@ export namespace Prisma {
   /**
    * Fields of the Adherent_sport model
    */
-  export interface Adherent_sportFieldRefs {
+  interface Adherent_sportFieldRefs {
     readonly id_sport: FieldRef<"Adherent_sport", 'BigInt'>
     readonly id: FieldRef<"Adherent_sport", 'Int'>
     readonly id_adherent: FieldRef<"Adherent_sport", 'Int'>
@@ -2995,7 +2981,7 @@ export namespace Prisma {
   /**
    * Adherent_sport findUnique
    */
-  export type Adherent_sportFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3017,7 +3003,7 @@ export namespace Prisma {
   /**
    * Adherent_sport findUniqueOrThrow
    */
-  export type Adherent_sportFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3039,7 +3025,7 @@ export namespace Prisma {
   /**
    * Adherent_sport findFirst
    */
-  export type Adherent_sportFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3091,7 +3077,7 @@ export namespace Prisma {
   /**
    * Adherent_sport findFirstOrThrow
    */
-  export type Adherent_sportFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3143,7 +3129,7 @@ export namespace Prisma {
   /**
    * Adherent_sport findMany
    */
-  export type Adherent_sportFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3190,7 +3176,7 @@ export namespace Prisma {
   /**
    * Adherent_sport create
    */
-  export type Adherent_sportCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3212,7 +3198,7 @@ export namespace Prisma {
   /**
    * Adherent_sport createMany
    */
-  export type Adherent_sportCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Adherent_sports.
      */
@@ -3223,7 +3209,7 @@ export namespace Prisma {
   /**
    * Adherent_sport createManyAndReturn
    */
-  export type Adherent_sportCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3246,7 +3232,7 @@ export namespace Prisma {
   /**
    * Adherent_sport update
    */
-  export type Adherent_sportUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3272,7 +3258,7 @@ export namespace Prisma {
   /**
    * Adherent_sport updateMany
    */
-  export type Adherent_sportUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Adherent_sports.
      */
@@ -3290,7 +3276,7 @@ export namespace Prisma {
   /**
    * Adherent_sport updateManyAndReturn
    */
-  export type Adherent_sportUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3320,7 +3306,7 @@ export namespace Prisma {
   /**
    * Adherent_sport upsert
    */
-  export type Adherent_sportUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3350,7 +3336,7 @@ export namespace Prisma {
   /**
    * Adherent_sport delete
    */
-  export type Adherent_sportDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3372,7 +3358,7 @@ export namespace Prisma {
   /**
    * Adherent_sport deleteMany
    */
-  export type Adherent_sportDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Adherent_sports to delete
      */
@@ -3386,7 +3372,7 @@ export namespace Prisma {
   /**
    * Adherent_sport without action
    */
-  export type Adherent_sportDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Adherent_sportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -3481,7 +3467,7 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type SportAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Sport to aggregate.
      */
@@ -3553,7 +3539,7 @@ export namespace Prisma {
 
 
 
-  export type SportGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SportWhereInput
     orderBy?: SportOrderByWithAggregationInput | SportOrderByWithAggregationInput[]
     by: SportScalarFieldEnum[] | SportScalarFieldEnum
@@ -3594,7 +3580,7 @@ export namespace Prisma {
     >
 
 
-  export type SportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type SportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_sport?: boolean
     Name?: boolean
     Date?: boolean
@@ -3604,7 +3590,7 @@ export namespace Prisma {
     _count?: boolean | SportCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sport"]>
 
-  export type SportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type SportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_sport?: boolean
     Name?: boolean
     Date?: boolean
@@ -3612,7 +3598,7 @@ export namespace Prisma {
     Ending_time?: boolean
   }, ExtArgs["result"]["sport"]>
 
-  export type SportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  export type SportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_sport?: boolean
     Name?: boolean
     Date?: boolean
@@ -3628,20 +3614,20 @@ export namespace Prisma {
     Ending_time?: boolean
   }
 
-  export type SportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_sport" | "Name" | "Date" | "Starting_time" | "Ending_time", ExtArgs["result"]["sport"]>
-  export type SportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_sport" | "Name" | "Date" | "Starting_time" | "Ending_time", ExtArgs["result"]["sport"]>
+  export type SportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Adherent_sport?: boolean | Sport$Adherent_sportArgs<ExtArgs>
     _count?: boolean | SportCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type SportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-  export type SportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+  export type SportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type SportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $SportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type $SportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Sport"
     objects: {
       Adherent_sport: Prisma.$Adherent_sportPayload<ExtArgs>[]
     }
-    scalars: runtime.Types.Extensions.GetPayloadResult<{
+    scalars: $Extensions.GetPayloadResult<{
       id_sport: bigint
       Name: string
       Date: Date | null
@@ -3651,14 +3637,14 @@ export namespace Prisma {
     composites: {}
   }
 
-  export type SportGetPayload<S extends boolean | null | undefined | SportDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$SportPayload, S>
+  type SportGetPayload<S extends boolean | null | undefined | SportDefaultArgs> = $Result.GetResult<Prisma.$SportPayload, S>
 
-  export type SportCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
+  type SportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
     Omit<SportFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: SportCountAggregateInputType | true
     }
 
-  export interface SportDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+  export interface SportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
     [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Sport'], meta: { name: 'Sport' } }
     /**
      * Find zero or one Sport that matches the filter.
@@ -3671,7 +3657,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends SportFindUniqueArgs>(args: SelectSubset<T, SportFindUniqueArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends SportFindUniqueArgs>(args: SelectSubset<T, SportFindUniqueArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one Sport that matches the filter or throw an error with `error.code='P2025'`
@@ -3685,7 +3671,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends SportFindUniqueOrThrowArgs>(args: SelectSubset<T, SportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends SportFindUniqueOrThrowArgs>(args: SelectSubset<T, SportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Sport that matches the filter.
@@ -3700,7 +3686,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends SportFindFirstArgs>(args?: SelectSubset<T, SportFindFirstArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends SportFindFirstArgs>(args?: SelectSubset<T, SportFindFirstArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Sport that matches the filter or
@@ -3716,7 +3702,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends SportFindFirstOrThrowArgs>(args?: SelectSubset<T, SportFindFirstOrThrowArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends SportFindFirstOrThrowArgs>(args?: SelectSubset<T, SportFindFirstOrThrowArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Sports that matches the filter.
@@ -3734,7 +3720,7 @@ export namespace Prisma {
      * const sportWithId_sportOnly = await prisma.sport.findMany({ select: { id_sport: true } })
      * 
      */
-    findMany<T extends SportFindManyArgs>(args?: SelectSubset<T, SportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends SportFindManyArgs>(args?: SelectSubset<T, SportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Sport.
@@ -3748,7 +3734,7 @@ export namespace Prisma {
      * })
      * 
      */
-    create<T extends SportCreateArgs>(args: SelectSubset<T, SportCreateArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends SportCreateArgs>(args: SelectSubset<T, SportCreateArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Sports.
@@ -3786,7 +3772,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends SportCreateManyAndReturnArgs>(args?: SelectSubset<T, SportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends SportCreateManyAndReturnArgs>(args?: SelectSubset<T, SportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Sport.
@@ -3800,7 +3786,7 @@ export namespace Prisma {
      * })
      * 
      */
-    delete<T extends SportDeleteArgs>(args: SelectSubset<T, SportDeleteArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends SportDeleteArgs>(args: SelectSubset<T, SportDeleteArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Sport.
@@ -3817,7 +3803,7 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends SportUpdateArgs>(args: SelectSubset<T, SportUpdateArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends SportUpdateArgs>(args: SelectSubset<T, SportUpdateArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Sports.
@@ -3880,7 +3866,7 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends SportUpdateManyAndReturnArgs>(args: SelectSubset<T, SportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends SportUpdateManyAndReturnArgs>(args: SelectSubset<T, SportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Sport.
@@ -3899,7 +3885,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends SportUpsertArgs>(args: SelectSubset<T, SportUpsertArgs<ExtArgs>>): Prisma__SportClient<runtime.Types.Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends SportUpsertArgs>(args: SelectSubset<T, SportUpsertArgs<ExtArgs>>): Prisma__SportClient<$Result.GetResult<Prisma.$SportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -3918,7 +3904,7 @@ export namespace Prisma {
     count<T extends SportCountArgs>(
       args?: Subset<T, SportCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends runtime.Types.Utils.Record<'select', any>
+      T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], SportCountAggregateOutputType>
@@ -4039,29 +4025,29 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__SportClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__SportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Adherent_sport<T extends Sport$Adherent_sportArgs<ExtArgs> = {}>(args?: Subset<T, Sport$Adherent_sportArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Adherent_sport<T extends Sport$Adherent_sportArgs<ExtArgs> = {}>(args?: Subset<T, Sport$Adherent_sportArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Adherent_sportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of which ever callback is executed.
      */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
     /**
      * Attaches a callback for only the rejection of the Promise.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of the callback.
      */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
      * resolved value cannot be modified from the callback.
      * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
      * @returns A Promise for the completion of the callback.
      */
-    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
 
@@ -4070,7 +4056,7 @@ export namespace Prisma {
   /**
    * Fields of the Sport model
    */
-  export interface SportFieldRefs {
+  interface SportFieldRefs {
     readonly id_sport: FieldRef<"Sport", 'BigInt'>
     readonly Name: FieldRef<"Sport", 'String'>
     readonly Date: FieldRef<"Sport", 'DateTime'>
@@ -4083,7 +4069,7 @@ export namespace Prisma {
   /**
    * Sport findUnique
    */
-  export type SportFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4105,7 +4091,7 @@ export namespace Prisma {
   /**
    * Sport findUniqueOrThrow
    */
-  export type SportFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4127,7 +4113,7 @@ export namespace Prisma {
   /**
    * Sport findFirst
    */
-  export type SportFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4179,7 +4165,7 @@ export namespace Prisma {
   /**
    * Sport findFirstOrThrow
    */
-  export type SportFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4231,7 +4217,7 @@ export namespace Prisma {
   /**
    * Sport findMany
    */
-  export type SportFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4278,7 +4264,7 @@ export namespace Prisma {
   /**
    * Sport create
    */
-  export type SportCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4300,7 +4286,7 @@ export namespace Prisma {
   /**
    * Sport createMany
    */
-  export type SportCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Sports.
      */
@@ -4311,7 +4297,7 @@ export namespace Prisma {
   /**
    * Sport createManyAndReturn
    */
-  export type SportCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4330,7 +4316,7 @@ export namespace Prisma {
   /**
    * Sport update
    */
-  export type SportUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4356,7 +4342,7 @@ export namespace Prisma {
   /**
    * Sport updateMany
    */
-  export type SportUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Sports.
      */
@@ -4374,7 +4360,7 @@ export namespace Prisma {
   /**
    * Sport updateManyAndReturn
    */
-  export type SportUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4400,7 +4386,7 @@ export namespace Prisma {
   /**
    * Sport upsert
    */
-  export type SportUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4430,7 +4416,7 @@ export namespace Prisma {
   /**
    * Sport delete
    */
-  export type SportDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4452,7 +4438,7 @@ export namespace Prisma {
   /**
    * Sport deleteMany
    */
-  export type SportDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Sports to delete
      */
@@ -4466,7 +4452,7 @@ export namespace Prisma {
   /**
    * Sport.Adherent_sport
    */
-  export type Sport$Adherent_sportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type Sport$Adherent_sportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Adherent_sport
      */
@@ -4490,7 +4476,7 @@ export namespace Prisma {
   /**
    * Sport without action
    */
-  export type SportDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  export type SportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Sport
      */
@@ -4510,17 +4496,17 @@ export namespace Prisma {
    * Enums
    */
 
-  export const TransactionIsolationLevel = runtime.makeStrictEnum({
+  export const TransactionIsolationLevel: {
     ReadUncommitted: 'ReadUncommitted',
     ReadCommitted: 'ReadCommitted',
     RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
-  } as const)
+  };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const AdherentScalarFieldEnum = {
+  export const AdherentScalarFieldEnum: {
     id_adherent: 'id_adherent',
     nom: 'nom',
     prenom: 'prenom',
@@ -4532,51 +4518,51 @@ export namespace Prisma {
     nombre_sceance_restantes: 'nombre_sceance_restantes',
     nombre_heures_restantes: 'nombre_heures_restantes',
     role: 'role'
-  } as const
+  };
 
   export type AdherentScalarFieldEnum = (typeof AdherentScalarFieldEnum)[keyof typeof AdherentScalarFieldEnum]
 
 
-  export const Adherent_sportScalarFieldEnum = {
+  export const Adherent_sportScalarFieldEnum: {
     id_sport: 'id_sport',
     id: 'id',
     id_adherent: 'id_adherent'
-  } as const
+  };
 
   export type Adherent_sportScalarFieldEnum = (typeof Adherent_sportScalarFieldEnum)[keyof typeof Adherent_sportScalarFieldEnum]
 
 
-  export const SportScalarFieldEnum = {
+  export const SportScalarFieldEnum: {
     id_sport: 'id_sport',
     Name: 'Name',
     Date: 'Date',
     Starting_time: 'Starting_time',
     Ending_time: 'Ending_time'
-  } as const
+  };
 
   export type SportScalarFieldEnum = (typeof SportScalarFieldEnum)[keyof typeof SportScalarFieldEnum]
 
 
-  export const SortOrder = {
+  export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
-  } as const
+  };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const QueryMode = {
+  export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
-  } as const
+  };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const NullsOrder = {
+  export const NullsOrder: {
     first: 'first',
     last: 'last'
-  } as const
+  };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
@@ -5885,4 +5871,9 @@ export namespace Prisma {
   export type BatchPayload = {
     count: number
   }
+
+  /**
+   * DMMF
+   */
+  export const dmmf: runtime.BaseDMMF
 }

@@ -3,10 +3,10 @@
 import { Bell, Monitor, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient"; // Make sure this is correctly set up
 
 interface UserProfile {
-  nom: string;
+  prenom: string;
   role: string;
 }
 
@@ -18,35 +18,60 @@ export default function SearchHeader() {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-
-      if (userError || !user) {
-        console.error("Error fetching user:", userError);
-        return;
-      }
-
       try {
-        const response = await fetch(`/api/dashboard/user-profile?email=${user.email}`);
-        const result = await response.json();
+        // Get the currently logged-in user
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        
 
-        if (!response.ok) {
-          throw new Error(result.error || "Failed to fetch profile");
+        if (userError || !user) {
+          console.error("Error fetching user:", userError);
+          router.push("/signin"); // Redirect to sign-in page if no user
+          return;
         }
 
+        console.log("Logged-in user email:", user.email);
+
+        // Fetch the profile from the "Adherent" table using the email of the logged-in user
+        const { data: Adherent, error } = await supabase
+        .from("Adherent")
+        .select("prenom, role, email")
+        .ilike("email", user.email ?? "")  // Case-insensitive match
+        .single();
+
+
+        if (error) {
+          // Improved error handling
+          const errorMessage = typeof error === "string" ? error : error?.message || "Unknown error";
+          console.error("Error fetching user profile from Adherent table:", errorMessage);
+          return;
+        }
+
+        if (!Adherent) {
+          console.warn("No matching user profile found in Adherent table.");
+          setUserProfile({
+            prenom: "Unknown",
+            role: "Athlete", // Default role
+          });
+          return;
+        }
+
+        console.log("Fetched Adherent data:", Adherent);
+
+        // Set user profile state
         setUserProfile({
-          nom: result.nom,
-          role: result.role ?? "Athlete",
+          prenom: Adherent.prenom || "Unknown",
+          role: Adherent.role || "Athlete", // Default to "Athlete" if no role is found
         });
+
+        console.log('User profile set:', { prenom: Adherent.prenom, role: Adherent.role });
+
       } catch (err) {
-        console.error("Error fetching profile:", err);
+        console.error("Unexpected error fetching user profile:", err);
       }
     };
 
     fetchUserProfile();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -79,7 +104,7 @@ export default function SearchHeader() {
           >
             <div className="text-right mr-3">
               <div className="font-semibold text-white">
-                {userProfile?.nom || "Loading..."}
+                {userProfile?.prenom || "Loading..."}
               </div>
               <div className="text-sm text-gray-400">
                 {userProfile?.role || "Loading..."}

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import { Eye, EyeOff } from "lucide-react"; // Import icons for show/hide
 
 export default function Signin() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function Signin() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,7 +51,7 @@ export default function Signin() {
         alignItems: 'center',
       }}
     >
-      <div className="max-w-md mx-auto p-8 border rounded-lg shadow bg-black border-yellow-400 w-full text-white">
+      <div className="max-w-md mx-auto p-8 border rounded-lg shadow bg-black border-yellow-400 w-full ">
         <h2 className="text-2xl font-bold mb-6 text-yellow-400">Sign In</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -60,14 +62,23 @@ export default function Signin() {
             onChange={handleChange}
             value={formData.email}
           />
-          <input
-            type="password"
-            name="password" // Make sure this matches the state key
-            placeholder="Password"
-            className="input mb-4 p-2 w-full rounded font-black"
-            onChange={handleChange}
-            value={formData.password} // Make sure this matches the state key
-          />
+          <div className="relative">
+            <input
+              type={passwordVisible ? "text" : "password"} // Toggle between text and password
+              name="password"
+              placeholder="Password"
+              className="input mb-4 p-2 w-full rounded font-black"
+              onChange={handleChange}
+              value={formData.password}
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+            >
+              {passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />} {/* Eye icon */}
+            </button>
+          </div>
           <button
             type="submit"
             disabled={loading}
@@ -76,7 +87,7 @@ export default function Signin() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
-        <p className="mt-4 text-center">
+        <p className="mt-4 text-center text-white">
           Do not have an account?{' '}
           <button
             onClick={() => router.push('/signup/1')}
