@@ -1,41 +1,37 @@
-'use client';
-import { useState } from "react";
-import CoachCard from "@/components/ui/dashboard/dashboardcard/CoachCard";
-import InBodyTestTable from "@/components/ui/dashboard/DoctorDashboard/InBodyTestTable";
-import DateRangeCalendar from "@/components/ui/dashboard/dashboardcard/DateRangeCalendar";
-import UsersTable from "@/components/ui/dashboard/DoctorDashboard/UsersTable";
-import SearchBar from "@/components/ui/dashboard/DoctorDashboard/SearchBar";
-import TodaysClients from "@/components/ui/dashboard/DoctorDashboard/TodaysClients";
+import UserComponent from "@/components/ui/dashboard/DoctorDashboard/UsersComponent";
+import InBodysComponent from "@/components/ui/dashboard/DoctorDashboard/InBodysComponent";
+import UpcomingMeetings from "@/components/ui/dashboard/DoctorDashboard/UpcomingMeetings";
 
 export default function Doctor() {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
-
   return (
-    <div className="flex justify-between gap-4">
-      {/* Left column: CoachCard above, InBodyTestTable below */}
-      <div className="flex flex-col">
-        <div className="mb-8">
-          <CoachCard name="Anis" role="Coach" imageUrl="" />
+    <div className="flex gap-8">
+      {/* Left side */}
+      <div className="flex-1">
+        <div className="mb-6">
+          <h1 className="font-black text-2xl">Morning Doc! Glad to have you back</h1>
         </div>
-        <div className="max:w-1/2">
-          <InBodyTestTable />
+
+        {/* First Row: Users and InBody */}
+        <div className="flex gap-6 mb-8">
+          <UserComponent />
+          <InBodysComponent />
+        </div>
+
+        {/* InBody Tests Title */}
+        <div className="mb-4">
+          <h1 className="font-black text-2xl">InBody Tests</h1>
+        </div>
+
+        {/* Second Row: Users and InBody again if needed (or maybe replace?) */}
+        <div className="flex gap-6">
+          <UserComponent />
+          <InBodysComponent />
         </div>
       </div>
 
-      {/* Middle column: Search + UsersTable */}
-      <div className="flex flex-col gap-4">
-        <SearchBar onSearch={handleSearch} />
-        <UsersTable searchQuery={searchQuery} />
-      </div>
-
-      {/* Right column: Calendar */}
-      <div >
-        <DateRangeCalendar />
-        <TodaysClients  />
+      {/* Right side */}
+      <div className="w-[350px] flex-shrink-0">
+        <UpcomingMeetings />
       </div>
     </div>
   );

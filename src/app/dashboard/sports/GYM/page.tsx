@@ -1,6 +1,6 @@
 import CircularProgress from "@/components/ui/dashboard/dashboardcard/CircularProgress";
 import DateRangeCalendar from "@/components/ui/dashboard/dashboardcard/DateRangeCalendar";
-import TodaySession from "@/components/ui/dashboard/dashboardcard/TodaySession";
+import TodaySession from "@/components/ui/dashboard/dashboardcard/WeeksSessions";
 import Statistics from "@/components/ui/dashboard/dashboardcard/Statistics";
 import SessionComponent from "@/components/ui/dashboard/dashboardcard/SessionComponent";
 

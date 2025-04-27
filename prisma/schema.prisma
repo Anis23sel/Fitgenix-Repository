@@ -22,6 +22,7 @@ model Adherent {
   nombre_heures_restantes  Int              @default(0)
   role                     String?          @default("Athlete")
   Adherent_sport           Adherent_sport[]
+  Diet                     Diet[]
 }
 
 model Adherent_sport {
@@ -39,4 +40,23 @@ model Sport {
   Starting_time  DateTime?        @db.Time(6)
   Ending_time    DateTime?        @db.Time(6)
   Adherent_sport Adherent_sport[]
+}
+
+model Diet {
+  id          BigInt   @id @default(autoincrement())
+  id_adherent Int
+  id_food     Int?
+  meal_type   String?  @db.VarChar
+  Adherent    Adherent @relation(fields: [id_adherent], references: [id_adherent], onDelete: Cascade)
+  food        food?    @relation(fields: [id_food], references: [id_food], onDelete: Cascade)
+}
+
+model food {
+  id_food  Int     @id @default(autoincrement())
+  name     String  @db.VarChar(255)
+  calories Int
+  fat      Decimal @db.Decimal(5, 2)
+  carbs    Decimal @db.Decimal(5, 2)
+  protein  Decimal @db.Decimal(5, 2)
+  Diet     Diet[]
 }
