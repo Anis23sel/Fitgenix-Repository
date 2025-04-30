@@ -1,6 +1,6 @@
 import UserComponent from "@/components/ui/dashboard/DoctorDashboard/UsersComponent";
 import InBodysComponent from "@/components/ui/dashboard/DoctorDashboard/InBodysComponent";
-import UpcomingMeetings from "@/components/ui/dashboard/DoctorDashboard/UpcomingMeetings";
+import UpcomingMeetings from "@/components/ui/dashboard/DoctorDashboard/UpcomingEvents/UpcomingMeetings";
 
 export default function Doctor() {
   return (
@@ -30,7 +30,7 @@ export default function Doctor() {
       </div>
 
       {/* Right side */}
-      <div className="w-[350px] flex-shrink-0">
+      <div className="w-1/4 flex-shrink-0">
         <UpcomingMeetings />
       </div>
     </div>
