@@ -65,9 +65,9 @@ export default function LastRecords() {
             lastRecords.map((record) => (
               <UserEvent
                 key={record.id}
-                name={`${record.Adherent.prenom} ${record.Adherent.nom}`} // Display name
-                date={new Date(record.date).toLocaleDateString()} // Format date
-                time={new Date(record.date).toLocaleTimeString()} // Format time
+                name={`${(record.Adherent as Adherent).prenom} ${(record.Adherent as Adherent).nom}`} // Display name
+                date={record.date ? new Date(record.date).toLocaleDateString() : "Invalid date"} // Format date
+                time={record.date ? new Date(record.date).toLocaleTimeString() : "Invalid time"} // Format time
               />
             ))
           ) : (
