@@ -21,6 +21,7 @@ model Adherent {
   nombre_sceance_restantes Int              @default(0)
   nombre_heures_restantes  Int              @default(0)
   role                     String?          @default("Athlete")
+  next_adherent_inbody_rdv DateTime?        @db.Timestamp(6)
   Adherent_sport           Adherent_sport[]
   Diet                     Diet[]
   InBody                   InBody[]
@@ -70,5 +71,6 @@ model InBody {
   masse_grasse     Float?    @db.Real
   score            Int?
   date             DateTime? @db.Date
+  time             DateTime? @db.Time(6)
   Adherent         Adherent  @relation(fields: [id_adherent], references: [id_adherent], onDelete: Cascade)
 }

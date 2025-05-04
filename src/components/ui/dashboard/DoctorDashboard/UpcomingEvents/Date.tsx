@@ -38,26 +38,29 @@ const DateSelector: React.FC<DateSelectorProps> = ({ onDateChange }) => {
 
     return (
         <div>
-            
             <ul className="flex justify-between">
-                {dates.map((date) => (
-                    <li
-                        key={date}
-                        onClick={() => handleClick(date)}
-                        className={
-                            `cursor-pointer px-3 py-2 rounded-xl transition ` +
-                            (selectedDate === date
-                                ? 'bg-yellow-400 text-black'
-                                : 'bg-gray-100 text-gray-800 hover:bg-yellow-400')
-                        }
-                    >
-                        {new Date(date).toLocaleDateString(undefined, {
-                            weekday: 'short',
-                            month: 'short',
-                            day: 'numeric',
-                        })}
-                    </li>
-                ))}
+                {dates.map((date) => {
+                    const dateObject = new Date(date);
+                    const formattedDate = dateObject.toLocaleDateString("fr-FR", {
+                        day: "2-digit",
+                        month: "short",
+                    }).toUpperCase(); // Format date as DD MMM
+
+                    return (
+                        <li
+                            key={date}
+                            onClick={() => handleClick(date)}
+                            className={
+                                `cursor-pointer px-3 py-2 rounded-xl transition ` +
+                                (selectedDate === date
+                                    ? 'bg-yellow-400 text-black'
+                                    : 'bg-gray-100 text-gray-800 hover:bg-yellow-400')
+                            }
+                        >
+                            {formattedDate}
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

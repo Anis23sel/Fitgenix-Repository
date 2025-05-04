@@ -1,26 +1,26 @@
 interface UserEventProps {
-    name: string;
-    date: string;
-    time: string;
-  }
-  
-  const UserEvent: React.FC<UserEventProps> = ({ name, date, time }) => {
-    return (
-      <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
-        <div className="flex flex-col gap-2">
-          <p className="text-lg font-semibold text-gray-800">
-            <strong>Name:</strong> {name}
-          </p>
-          <p className="text-sm text-gray-600">
-            <strong>Date:</strong> {date}
-          </p>
-          <p className="text-sm text-gray-600">
-            <strong>Time:</strong> {time}
-          </p>
-        </div>
+  name: string;
+  prenom: string;
+  date: string;
+  time: string;
+}
+
+const UserEvent: React.FC<UserEventProps> = ({ name, prenom, date, time }) => {
+  return (
+    <div className="flex justify-between items-start bg-gray-50 p-4 rounded-md shadow-sm border">
+      {/* Left: prenom over nom */}
+      <div className="text-left">
+        <p className="text-sm text-gray-500">{prenom}</p>
+        <p className="text-lg font-medium text-gray-800">{name}</p>
       </div>
-    );
-  };
-  
-  export default UserEvent;
-  
+
+      {/* Right: time over date */}
+      <div className="text-right">
+        <p className="text-sm font-semibold text-yellow-600">{time}</p>
+        <p className="text-sm text-gray-600">{date}</p>
+      </div>
+    </div>
+  );
+};
+
+export default UserEvent;

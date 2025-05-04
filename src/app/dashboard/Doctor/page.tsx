@@ -6,6 +6,8 @@ import UserComponent from "@/components/ui/dashboard/DoctorDashboard/UsersCompon
 import InBodysComponent from "@/components/ui/dashboard/DoctorDashboard/InBodysComponent";
 import UpcomingMeetings from "@/components/ui/dashboard/DoctorDashboard/UpcomingEvents/UpcomingMeetings";
 import LastRecords from "@/components/ui/dashboard/DoctorDashboard/LastRecords/LastRecords";
+import UsersSeraching from "@/components/ui/dashboard/DoctorDashboard/UsersSearching";
+import AddUsersDiet from "@/components/ui/dashboard/DoctorDashboard/Diet/AddUsersDiet";
 import Link from "next/link";
 
 export default function Doctor() {
@@ -93,13 +95,12 @@ export default function Doctor() {
 
           <div className="flex gap-6 mb-8">
             <UserComponent />
-            <InBodysComponent
+            <UsersSeraching
               backgroundImage=""
-              title="Your InBody Stats"
-              subtitle="Track your progress"
-              linkHref="/dashboard/Doctor/inbody"
-              linkLabel="Explore"
-            />
+              title="Search for Users"
+              subtitle="Find users to enter their profiles"
+              linkHref="/dashboard/users"
+              linkLabel="View All" />
           </div>
 
           <div className="mb-4">
@@ -122,6 +123,10 @@ export default function Doctor() {
                 linkLabel="Explore"
               />
             </Link>
+          </div>
+          <div className="mt-4 mb-4">
+            <h1 className="font-black text-2xl">InBody Tests</h1>
+            <AddUsersDiet />
           </div>
         </div>
 
