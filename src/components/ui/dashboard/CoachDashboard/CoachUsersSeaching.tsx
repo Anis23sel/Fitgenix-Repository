@@ -16,6 +16,13 @@ type Adherent = {
   email: string;
 };
 
+type AdherentSportRecord = {
+  Adherent: Adherent | null;
+  Sport: {
+    Name: string;
+  } | null;
+};
+
 export default function UsersSearching({
   backgroundImage = "",
   title = "Search for Users",
@@ -32,15 +39,40 @@ export default function UsersSearching({
 
     const fetchUsers = async () => {
       const { data, error } = await supabase
-        .from("Adherent")
-        .select("id_adherent, nom, prenom, email");
+        .from("Adherent_sport")
+        .select(
+          `
+          Adherent (
+            id_adherent,
+            nom,
+            prenom,
+            email
+          ),
+          Sport (
+            Name
+          )
+        `
+        );
 
       if (error) {
         console.error("Error fetching users:", error);
         return;
       }
 
-      setUsers(data || []);
+      // Filter for Gym and remove duplicates by id_adherent
+      const gymUsers = new Map<number, Adherent>();
+
+      (data as unknown as AdherentSportRecord[]).forEach((record) => {
+        if (
+          record.Sport?.Name === "Gym" &&
+          record.Adherent &&
+          !gymUsers.has(record.Adherent.id_adherent)
+        ) {
+          gymUsers.set(record.Adherent.id_adherent, record.Adherent);
+        }
+      });
+
+      setUsers(Array.from(gymUsers.values()));
     };
 
     fetchUsers();

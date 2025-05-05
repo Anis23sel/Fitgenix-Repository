@@ -2,11 +2,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import UserComponent from "@/components/ui/dashboard/DoctorDashboard/UsersComponent";
+import DoctorUserComponent from "@/components/ui/dashboard/DoctorDashboard/DoctorUsersSearching";
 import InBodysComponent from "@/components/ui/dashboard/DoctorDashboard/InBodysComponent";
 import UpcomingMeetings from "@/components/ui/dashboard/DoctorDashboard/UpcomingEvents/UpcomingMeetings";
 import LastRecords from "@/components/ui/dashboard/DoctorDashboard/LastRecords/LastRecords";
-import UsersSeraching from "@/components/ui/dashboard/DoctorDashboard/UsersSearching";
+import UsersSearching from "@/components/ui/dashboard/DoctorDashboard/DoctorUsersSearching";
 import AddUsersDiet from "@/components/ui/dashboard/DoctorDashboard/Diet/AddUsersDiet";
 import Link from "next/link";
 
@@ -94,8 +94,8 @@ export default function Doctor() {
           </div>
 
           <div className="flex gap-6 mb-8">
-            <UserComponent />
-            <UsersSeraching
+            <DoctorUserComponent />
+            <UsersSearching
               backgroundImage=""
               title="Search for Users"
               subtitle="Find users to enter their profiles"
