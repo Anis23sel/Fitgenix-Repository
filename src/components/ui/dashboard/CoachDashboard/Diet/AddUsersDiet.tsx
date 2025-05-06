@@ -20,6 +20,7 @@ export default function AddUsersDiet() {
   const [selectedUser, setSelectedUser] = useState<number | null>(null);
   const [selectedFoods, setSelectedFoods] = useState<Food[]>([]);
   const [mealType, setMealType] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
   const [status, setStatus] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -46,30 +47,35 @@ export default function AddUsersDiet() {
   }, []);
 
   const handleSubmit = async () => {
-    if (!selectedUser || !mealType) {
-      setStatus("Please select user and enter meal type.");
+    if (!selectedUser || !mealType || !selectedDate) {
+      setStatus("Please select a user, meal type, and date.");
       return;
     }
 
-    const dietEntries = selectedFoods.map((food) => ({
-      id_adherent: selectedUser,
-      id_food: food.id_food,
-      meal_type: mealType,
-    }));
+    // Loop through each selected food and insert it individually
+    for (const food of selectedFoods) {
+      const { data, error } = await supabase
+        .from("Diet")
+        .insert({
+          id_adherent: selectedUser,
+          id_food: food.id_food,
+          meal_type: mealType,
+          Date: selectedDate, // Pass the selected date
+        });
 
-    console.log("Diet Entries to Insert:", dietEntries); // Debugging line
-
-    const { data, error } = await supabase.from("Diet").insert(dietEntries);
-
-    if (error) {
-      console.error("Insert error:", error.message);
-      setStatus("Failed to add diet.");
-    } else {
-      console.log("Data inserted:", data); // Log inserted data
-      setStatus("Diet added successfully.");
-      setMealType("");
-      setSelectedFoods([]);
+      if (error) {
+        console.error("Insert error:", error.message);
+        setStatus("Failed to add diet.");
+        return;
+      } else {
+        console.log("Data inserted:", data); // Log inserted data
+      }
     }
+
+    setStatus("Diet added successfully.");
+    setMealType("");
+    setSelectedFoods([]);
+    setSelectedDate("");
   };
 
   const handleFoodSelect = (food: Food) => {
@@ -138,6 +144,15 @@ export default function AddUsersDiet() {
               <option value="Lunch">Lunch</option>
               <option value="Dinner">Dinner</option>
             </select>
+
+            {/* Select Date */}
+            <label className="block mb-2">Select Date:</label>
+            <input
+              type="date"
+              className="w-full p-2 mb-4 border rounded text-black"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
 
             {/* Select Foods (in a 5-per-column grid) */}
             <label className="block mb-2">Select Foods:</label>

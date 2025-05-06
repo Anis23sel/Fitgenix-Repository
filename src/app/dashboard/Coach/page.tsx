@@ -1,5 +1,6 @@
 'use client';
 import CoachUsersSearching from "@/components/ui/dashboard/CoachDashboard/CoachUsersSeaching";
+import AddUsersDiet from "@/components/ui/dashboard/CoachDashboard/Diet/AddUsersDiet";
 
 export default function Coach() {
   return (
@@ -14,6 +15,10 @@ export default function Coach() {
               linkLabel="View All" />
           
       </div>
+      <div className="mt-4 mb-4">
+            <h1 className="font-black text-2xl mb-4">Diet Section</h1>
+            <AddUsersDiet />
+          </div>
     </div>
   );
 }

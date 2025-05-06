@@ -1,96 +1,52 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+"use client";
 
-// Define the shape of a food item
+import React from "react";
+
 export interface FoodItem {
   name: string;
   calories: number;
-  fat: number;
-  carbs: number;
   protein: number;
+  carbs: number;
+  fat: number;
 }
 
-// Props for the Mealcard component
-export interface MealcardProps {
+interface Props {
   breakfastRows: FoodItem[];
   lunchRows: FoodItem[];
   dinnerRows: FoodItem[];
 }
 
-export default function Mealcard({ breakfastRows, lunchRows, dinnerRows }: MealcardProps) {
-  const [selectedMeal, setSelectedMeal] = React.useState<'breakfast' | 'lunch' | 'dinner'>('breakfast');
+const MealCardSection = ({ title, items }: { title: string; items: FoodItem[] }) => (
+  <div className="bg-black backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/10 hover:shadow-xl transition-shadow duration-300">
+    <h3 className="text-2xl font-bold mb-4 text-white">{title}</h3>
+    {items.length > 0 ? (
+      <ul className="space-y-3">
+        {items.map((item, idx) => (
+          <li
+            key={idx}
+            className="flex justify-between items-center p-2 rounded-md bg-white/5 hover:bg-white/10 transition-colors text-white"
+          >
+            <span className="font-medium">{item.name}</span>
+            <span className="text-sm text-white/80">{item.calories} kcal</span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p className="text-white/70 text-sm italic">No items added</p>
+    )}
+  </div>
+);
 
-  const renderTable = (rows: FoodItem[]) => (
-    <TableContainer component={Paper} style={{ backgroundColor: 'transparent' }}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Item</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-
-  const mealDataMap = {
-    breakfast: {
-      title: 'Breakfast',
-      rows: breakfastRows,
-    },
-    lunch: {
-      title: 'Lunch',
-      rows: lunchRows,
-    },
-    dinner: {
-      title: 'Dinner',
-      rows: dinnerRows,
-    },
-  };
-
+const Mealcard: React.FC<Props> = ({ breakfastRows, lunchRows, dinnerRows }) => {
   return (
-    <div className="mt-6">
-      <div className="m-2">
-        <h1 className="text-xl font-semibold mb-6">Today's Nutritional Overview</h1>
-        <div className="flex space-x-4">
-          {(['breakfast', 'lunch', 'dinner'] as const).map((meal) => (
-            <button
-              key={meal}
-              onClick={() => setSelectedMeal(meal)}
-              className={`${selectedMeal === meal ? 'bg-yellow-400 text-black' : 'text-gray-600'} px-4 py-2 rounded-lg transition-colors hover:bg-yellow-300`}
-            >
-              {meal.charAt(0).toUpperCase() + meal.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-4 bg-transparent p-6 rounded-lg shadow-lg">
-        <h2 className="text-lg font-semibold">{mealDataMap[selectedMeal].title}</h2>
-        {renderTable(mealDataMap[selectedMeal].rows)}
+    <div className="p-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <MealCardSection title="🥣 Breakfast" items={breakfastRows} />
+        <MealCardSection title="🍱 Lunch" items={lunchRows} />
+        <MealCardSection title="🍽️ Dinner" items={dinnerRows} />
       </div>
     </div>
   );
-}
+};
+
+export default Mealcard;

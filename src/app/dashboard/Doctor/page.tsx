@@ -1,4 +1,3 @@
-// app/dashboard/Doctor/page.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
@@ -7,8 +6,8 @@ import InBodysComponent from "@/components/ui/dashboard/DoctorDashboard/InBodysC
 import UpcomingMeetings from "@/components/ui/dashboard/DoctorDashboard/UpcomingEvents/UpcomingMeetings";
 import LastRecords from "@/components/ui/dashboard/DoctorDashboard/LastRecords/LastRecords";
 import UsersSearching from "@/components/ui/dashboard/DoctorDashboard/DoctorUsersSearching";
-import AddUsersDiet from "@/components/ui/dashboard/DoctorDashboard/Diet/AddUsersDiet";
 import Link from "next/link";
+import Select from "react-select";
 
 export default function Doctor() {
   const [showOverlayForm, setShowOverlayForm] = useState(false);
@@ -41,7 +40,7 @@ export default function Doctor() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,18 +56,16 @@ export default function Doctor() {
     const masse_grasse = parseFloat(formData.fatMass);
     const score = parseInt(formData.score);
 
-    const { data, error } = await supabase
-      .from("InBody")
-      .insert([
-        {
-          id_adherent: parseInt(formData.userId),
-          poids,
-          masse_musculaire,
-          masse_grasse,
-          score,
-          date: new Date(),
-        },
-      ]);
+    const { data, error } = await supabase.from("InBody").insert([
+      {
+        id_adherent: parseInt(formData.userId),
+        poids,
+        masse_musculaire,
+        masse_grasse,
+        score,
+        date: new Date(),
+      },
+    ]);
 
     if (error) {
       console.error("Error inserting data:", error);
@@ -100,7 +97,8 @@ export default function Doctor() {
               title="Search for Users"
               subtitle="Find users to enter their profiles"
               linkHref="/dashboard/users"
-              linkLabel="View All" />
+              linkLabel="View All"
+            />
           </div>
 
           <div className="mb-4">
@@ -124,9 +122,9 @@ export default function Doctor() {
               />
             </Link>
           </div>
+
           <div className="mt-4 mb-4">
-            <h1 className="font-black text-2xl">InBody Tests</h1>
-            <AddUsersDiet />
+            <h1 className="font-black text-2xl mb-4">Diet Section</h1>
           </div>
         </div>
 
@@ -136,6 +134,7 @@ export default function Doctor() {
         </div>
       </div>
 
+      {/* Overlay form for InBody test */}
       {showOverlayForm && (
         <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center">
           <form
@@ -153,21 +152,20 @@ export default function Doctor() {
             <h2 className="text-2xl font-bold">New InBody Test</h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Select User</label>
-              <select
-                name="userId"
-                value={formData.userId}
-                onChange={handleChange}
-                className="w-full mt-1 border border-gray-300 rounded-md p-2"
-                required
-              >
-                <option value="">-- Select a User --</option>
-                {users.map(user => (
-                  <option key={user.id_adherent} value={user.id_adherent}>
-                    {user.nom} {user.prenom}
-                  </option>
-                ))}
-              </select>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Select User</label>
+              <Select
+                options={users.map((user) => ({
+                  value: user.id_adherent,
+                  label: `${user.nom} ${user.prenom}`,
+                }))}
+                onChange={(option) =>
+                  setFormData((prev) => ({ ...prev, userId: option?.value || "" }))
+                }
+                placeholder="Search by name or prenom"
+                className="react-select-container"
+                classNamePrefix="react-select"
+                isClearable
+              />
             </div>
 
             <div>

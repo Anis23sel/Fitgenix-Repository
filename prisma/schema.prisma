@@ -46,12 +46,13 @@ model Sport {
 }
 
 model Diet {
-  id          BigInt   @id @default(autoincrement())
+  id          BigInt    @id @default(autoincrement())
   id_adherent Int
   id_food     Int?
-  meal_type   String?  @db.VarChar
-  Adherent    Adherent @relation(fields: [id_adherent], references: [id_adherent], onDelete: Cascade)
-  food        food?    @relation(fields: [id_food], references: [id_food], onDelete: Cascade)
+  meal_type   String?   @db.VarChar
+  Date        DateTime? @db.Date
+  Adherent    Adherent  @relation(fields: [id_adherent], references: [id_adherent], onDelete: Cascade)
+  food        food?     @relation(fields: [id_food], references: [id_food], onDelete: Cascade)
 }
 
 model food {

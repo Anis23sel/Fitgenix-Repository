@@ -52,22 +52,34 @@ export default function Dashboard() {
         setLoading(false);
         return;
       }
+
       setAdherentId(adherent.id_adherent);
 
+      // Get today's date string in YYYY-MM-DD format
+      
+      const today = new Date().toISOString().split("T")[0];
+      // Fetch diet entries for today by exact date match
       const { data: dietEntries, error: dietError } = await supabase
         .from("Diet")
-        .select("meal_type, food(name, calories, fat, carbs, protein)")
-        .eq("id_adherent", adherent.id_adherent);
+        .select("meal_type, food(name, calories, fat, carbs, protein), Date")
+        .eq("id_adherent", adherent.id_adherent)
+        .eq("Date", today);
 
       if (!dietError && dietEntries) {
         setBreakfastRows(
-          dietEntries.filter((e: any) => e.meal_type === "breakfast").map((e: any) => e.food as FoodItem)
+          dietEntries
+            .filter((e: any) => e.meal_type === "Breakfast")
+            .map((e: any) => e.food as FoodItem)
         );
         setLunchRows(
-          dietEntries.filter((e: any) => e.meal_type === "lunch").map((e: any) => e.food as FoodItem)
+          dietEntries
+            .filter((e: any) => e.meal_type === "Lunch")
+            .map((e: any) => e.food as FoodItem)
         );
         setDinnerRows(
-          dietEntries.filter((e: any) => e.meal_type === "dinner").map((e: any) => e.food as FoodItem)
+          dietEntries
+            .filter((e: any) => e.meal_type === "Dinner")
+            .map((e: any) => e.food as FoodItem)
         );
       }
 
@@ -80,7 +92,9 @@ export default function Dashboard() {
         setSports(
           sportData.map((item: any) => ({
             sport: item.Sport,
-            adherent: { nombre_sceance_restantes: adherent.nombre_sceance_restantes },
+            adherent: {
+              nombre_sceance_restantes: adherent.nombre_sceance_restantes,
+            },
           }))
         );
       }
@@ -91,38 +105,59 @@ export default function Dashboard() {
     loadDashboardData();
   }, [router]);
 
-  if (loading) return <div className="flex justify-center items-center min-h-screen"><p className="text-white">Loading dashboard...</p></div>;
-  if (error) return <div className="flex justify-center items-center min-h-screen"><p className="text-red-500">{error}</p></div>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-white">Loading dashboard...</p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
 
   return (
     <div className="flex justify-between gap-6 mt-6">
       <div className="flex-1 flex flex-col gap-6">
         <div className="grid grid-cols-2 gap-6 w-full">
           {sports.map((item, idx) => (
-            <Link key={idx} href={`/dashboard/sports/${encodeURIComponent(item.sport.Name)}`}>
+            <Link
+              key={idx}
+              href={`/dashboard/sports/${encodeURIComponent(item.sport.Name)}`}
+            >
               <DashboardSportCard
                 sport={item.sport.Name}
                 sessions={`${item.adherent.nombre_sceance_restantes} sessions`}
                 period="left"
                 hasIncreased={false}
-                backgroundImage={`/pictures/Dashboard/Sports/${item.sport.Name}.png`} />
+                backgroundImage={`/pictures/Dashboard/Sports/${item.sport.Name}.png`}
+              />
             </Link>
           ))}
           <div className="col-span-2 text-center mt-4">
             <Link href="/dashboard/sport">
-              <button className="bg-yellow-400 text-black py-2 px-6 rounded-lg text-lg font-medium hover:bg-yellow-500 transition">View All Sports</button>
+              <button className="bg-yellow-400 text-black py-2 px-6 rounded-lg text-lg font-medium hover:bg-yellow-500 transition">
+                View All Sports
+              </button>
             </Link>
           </div>
         </div>
 
-        <Mealcard breakfastRows={breakfastRows} lunchRows={lunchRows} dinnerRows={dinnerRows} />
+        <Mealcard
+          breakfastRows={breakfastRows}
+          lunchRows={lunchRows}
+          dinnerRows={dinnerRows}
+        />
       </div>
 
       <div className="w-full sm:w-[300px] lg:w-[350px] flex-shrink-0">
         <div className="mb-6">
           {adherentId && <NextSession adherentId={adherentId} />}
           <div className="mt-6">
-          <WeekSessions />
+            <WeekSessions />
           </div>
         </div>
       </div>
