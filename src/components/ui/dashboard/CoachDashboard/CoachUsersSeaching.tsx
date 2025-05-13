@@ -38,10 +38,29 @@ export default function UsersSearching({
     if (!isModalOpen) return;
 
     const fetchUsers = async () => {
+      const COACH_ID = 1; // 🔁 Replace with dynamic coach ID later
+
+      // Step 1: Get sports coached by this coach
+      const { data: sportsCoached, error: sportsError } = await supabase
+        .from("Sport_coach")
+        .select("id_sport")
+        .eq("id_coach", COACH_ID);
+
+      if (sportsError || !sportsCoached) {
+        console.error("Error fetching coached sports:", sportsError);
+        return;
+      }
+
+      const sportIds = sportsCoached.map((s) => s.id_sport);
+      if (sportIds.length === 0) {
+        setUsers([]);
+        return;
+      }
+
+      // Step 2: Get adherents from Adherent_sport with those sport IDs
       const { data, error } = await supabase
         .from("Adherent_sport")
-        .select(
-          `
+        .select(`
           Adherent (
             id_adherent,
             nom,
@@ -51,28 +70,24 @@ export default function UsersSearching({
           Sport (
             Name
           )
-        `
-        );
+        `)
+        .in("id_sport", sportIds);
 
       if (error) {
         console.error("Error fetching users:", error);
         return;
       }
 
-      // Filter for Gym and remove duplicates by id_adherent
-      const gymUsers = new Map<number, Adherent>();
+      // Step 3: Filter duplicates
+      const coachUsers = new Map<number, Adherent>();
 
       (data as unknown as AdherentSportRecord[]).forEach((record) => {
-        if (
-          record.Sport?.Name === "Gym" &&
-          record.Adherent &&
-          !gymUsers.has(record.Adherent.id_adherent)
-        ) {
-          gymUsers.set(record.Adherent.id_adherent, record.Adherent);
+        if (record.Adherent && !coachUsers.has(record.Adherent.id_adherent)) {
+          coachUsers.set(record.Adherent.id_adherent, record.Adherent);
         }
       });
 
-      setUsers(Array.from(gymUsers.values()));
+      setUsers(Array.from(coachUsers.values()));
     };
 
     fetchUsers();

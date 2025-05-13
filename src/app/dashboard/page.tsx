@@ -8,6 +8,7 @@ import DashboardSportCard from "@/components/ui/dashboard/dashboardcard/Dashboar
 import NextSession from "@/components/ui/dashboard/dashboardcard/NextSession";
 import Mealcard, { FoodItem } from "@/components/ui/dashboard/dashboardcard/Mealcard";
 import WeekSessions from "@/components/ui/dashboard/dashboardcard/WeeksSessions";
+import BookInbody from "@/components/ui/dashboard/dashboardcard/BookInbody";
 
 interface SportData {
   sport: {
@@ -55,10 +56,8 @@ export default function Dashboard() {
 
       setAdherentId(adherent.id_adherent);
 
-      // Get today's date string in YYYY-MM-DD format
-      
       const today = new Date().toISOString().split("T")[0];
-      // Fetch diet entries for today by exact date match
+
       const { data: dietEntries, error: dietError } = await supabase
         .from("Diet")
         .select("meal_type, food(name, calories, fat, carbs, protein), Date")
@@ -159,6 +158,7 @@ export default function Dashboard() {
           <div className="mt-6">
             <WeekSessions />
           </div>
+          {adherentId && <BookInbody adherentId={adherentId} />}
         </div>
       </div>
     </div>

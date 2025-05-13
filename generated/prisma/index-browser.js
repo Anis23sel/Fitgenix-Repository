@@ -128,7 +128,10 @@ exports.Prisma.AdherentScalarFieldEnum = {
   goal: 'goal',
   nombre_sceance_restantes: 'nombre_sceance_restantes',
   nombre_heures_restantes: 'nombre_heures_restantes',
-  role: 'role'
+  role: 'role',
+  next_adherent_inbody_rdv: 'next_adherent_inbody_rdv',
+  payment_status: 'payment_status',
+  inscription_status: 'inscription_status'
 };
 
 exports.Prisma.Adherent_sportScalarFieldEnum = {
@@ -139,10 +142,59 @@ exports.Prisma.Adherent_sportScalarFieldEnum = {
 
 exports.Prisma.SportScalarFieldEnum = {
   id_sport: 'id_sport',
-  Name: 'Name',
-  Date: 'Date',
-  Starting_time: 'Starting_time',
-  Ending_time: 'Ending_time'
+  Name: 'Name'
+};
+
+exports.Prisma.SportSessionScalarFieldEnum = {
+  id: 'id',
+  sport_id: 'sport_id',
+  date: 'date',
+  starting_time: 'starting_time',
+  ending_time: 'ending_time',
+  group_name: 'group_name'
+};
+
+exports.Prisma.DietScalarFieldEnum = {
+  id: 'id',
+  id_adherent: 'id_adherent',
+  id_food: 'id_food',
+  meal_type: 'meal_type',
+  Date: 'Date'
+};
+
+exports.Prisma.FoodScalarFieldEnum = {
+  id_food: 'id_food',
+  name: 'name',
+  calories: 'calories',
+  fat: 'fat',
+  carbs: 'carbs',
+  protein: 'protein'
+};
+
+exports.Prisma.InBodyScalarFieldEnum = {
+  id: 'id',
+  id_adherent: 'id_adherent',
+  poids: 'poids',
+  masse_musculaire: 'masse_musculaire',
+  masse_grasse: 'masse_grasse',
+  score: 'score',
+  date: 'date',
+  time: 'time'
+};
+
+exports.Prisma.CoachScalarFieldEnum = {
+  id_coach: 'id_coach',
+  nom: 'nom',
+  prenom: 'prenom',
+  email: 'email',
+  age: 'age',
+  id_sport: 'id_sport'
+};
+
+exports.Prisma.Sport_coachScalarFieldEnum = {
+  id_coaching: 'id_coaching',
+  id_coach: 'id_coach',
+  id_sport: 'id_sport'
 };
 
 exports.Prisma.SortOrder = {
@@ -164,7 +216,13 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Adherent: 'Adherent',
   Adherent_sport: 'Adherent_sport',
-  Sport: 'Sport'
+  Sport: 'Sport',
+  SportSession: 'SportSession',
+  Diet: 'Diet',
+  food: 'food',
+  InBody: 'InBody',
+  Coach: 'Coach',
+  Sport_coach: 'Sport_coach'
 };
 
 /**
