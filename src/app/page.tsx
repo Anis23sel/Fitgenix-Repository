@@ -30,7 +30,7 @@ export default function LandingPage() {
     <>
       <div 
         className="h-screen flex bg-cover bg-center"
-        style={{ backgroundImage: "url('/pictures/LandingPage/page1/Landing_page.png')" }}
+        style={{ backgroundImage: "url('/pictures/Sports/Landing_page.png')" }}
       >
         <div className="absolute top-0 left-0 w-full mt-4 ml-9 text-3xl font-bold text-white shadow-lg">
           <Header/>

@@ -1,5 +1,7 @@
-import AdminPendingUsers from '@/components/ui/dashboard/AdminDashboard/AdminPendingUsers'
+import AdminPendingUsers from '@/components/ui/dashboard/AdminDashboard/users/AdminPendingUsers'
 import EditSportsTime from '@/components/ui/dashboard/AdminDashboard/EditSportsTime'  
+import ManageCoaches from '@/components/ui/dashboard/AdminDashboard/ManageCoaches'
+import AdminDeletingUsers from '@/components/ui/dashboard/AdminDashboard/users/AdminDeletingUsers'
 export default function AdminDashboard(){
     return (
         <>
@@ -7,6 +9,8 @@ export default function AdminDashboard(){
             <p className="text-lg mb-8">Manage your application here.</p>
             <AdminPendingUsers />
             <EditSportsTime />
+            <ManageCoaches />
+            <AdminDeletingUsers />
         </>
         
     );
